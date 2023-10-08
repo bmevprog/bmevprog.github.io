@@ -1,4 +1,19 @@
-# Bárcsak tudnék rendezni (egy valszámos feladat)
+---
+layout: post
+title: Bárcsak tudnék rendezni (egy valszámos feladat)
+date: 2022-04-12 12:00:00 +0100
+summary: 'Ebben a cikkben szeretnék egy kicsit bővebben a Codeforces 1753C: Wish I Knew How to Sort feladat megoldásairól beszélni.'
+categories: [codeforces, valszam]
+keywords: codeforces, valszam, varhato-ertek, markov-lanc
+tags:
+ - codeforces
+ - valszam
+ - varhato-ertek
+ - markov-lanc
+math: true
+---
+
+# 
 
 Ebben a cikkben szeretnék egy kicsit bővebben a [Codeforces 1753C: Wish I Knew How to Sort](https://codeforces.com/problemset/problem/1753/C) feladat megoldásairól beszélni.
 
@@ -19,7 +34,7 @@ A feladatnak legalább kettő, egymástól nagyon különböző megoldása van, 
 
 Az első dolog, amit a feladat kapcsán észreveszünk, hogy tudjuk hány darab $0$-ás és $1$-es található az $a$ tömbben, ami alapján be tudunk húzni egy elválasztó vonalat, ami majd a végeredményben a $0$-ák és $1$-esek határa lesz.
 
-![Elválasztó vonal](img/elvalaszto_vonal.png)
+![Elválasztó vonal](/assets/img/2022-04-12-barcsak-tudnek-rendezni/elvalaszto_vonal.png)
 
 Ezután a véletlenül választott $i < j$ pár elhelyezkedése szerint tulajdonképpen két különböző eset van:
 
@@ -28,11 +43,11 @@ Ezután a véletlenül választott $i < j$ pár elhelyezkedése szerint tulajdon
 
 Az 1. esetben ha történik csere azzal hasznos munkát végeztünk, hiszen növeltük a $0$-ák számát a vonal előtt és az $1$-esek számát a vonal után, ezzel közelebb kerültünk a célállapothoz.
 
-![Hasznos munka](img/hasznos_munka.png)
+![Hasznos munka](/assets/img/2022-04-12-barcsak-tudnek-rendezni/hasznos_munka.png)
 
 A 2. esetben ha történik csere azzal nem végeztünk hasznos munkát, hiszen pusztán határokon belül mozgattunk dolgokat, továbbra is ugyanannyi $1$-est kell még a határ bal oldaláról a jobb oldalára mozgatni, miközben a helyükre $0$-ákat hozunk.
 
-![Haszontala munka](img/haszontalan_munka.png)
+![Haszontala munka](/assets/img/2022-04-12-barcsak-tudnek-rendezni/haszontalan_munka.png)
 
 Tehát elmondható, hogy a feladat szempontjából lényegtelen a $0$-ák és $1$-esek pontos elhelyezkedése, csak az számít, hogy hány darab található belőlük a határvonal egy-egy oldalán. Hasznos lépés csak akkor történik, amikor az $i$ a határ előtt és a $j$ a határ után van, továbbá $a_i = 1$ és $a_j = 0$. Minden más esetben a lépés nem változtat az aktuális állapoton.
 
@@ -149,7 +164,7 @@ Képzeljünk el például egy olyan időjárási modellt, ami a következőket �
 
 Ezeket az állításokat egy ábrán szemléltethetjük:
 
-![Időjárás Markov-lánc](img/idojaras_markov.png)
+![Időjárás Markov-lánc](/assets/img/2022-04-12-barcsak-tudnek-rendezni/idojaras_markov.png)
 
 Ez példa egy nagyon egyszerű Markoc-láncra. A láncnak $2$ lehetséges állapota van, "napos" és "esős". Az $i.$ napon az $X_i$ valószínűségi változóval jelöljük, hogy milyen idő volt. A fenti állításainkat lefordíthatjuk a valószínűségszámítás nyelvére, mellyel a lánc állapotátmeneti valószínűségeit adhatjuk meg:
 
@@ -160,7 +175,7 @@ Ez példa egy nagyon egyszerű Markoc-láncra. A láncnak $2$ lehetséges állap
 
 Ehhez szokott tartozni egy állapotátmeneti (általában $\Pi$-vel jelölt) mátrix:
 
-![Időjárás átmeneti mátrix](img/idojaras_atmeneti_matrix.png)
+![Időjárás átmeneti mátrix](/assets/img/2022-04-12-barcsak-tudnek-rendezni/idojaras_atmeneti_matrix.png)
 
 A mátrix oszlopai pedig $1$-re összegződnek, hiszen teljes eseményrendszerről van szó:
 - Egymást páronként kizárják, hiszen a modellünk szerint egy napon csak egyféle időjárás lehet.
@@ -174,7 +189,7 @@ Feladatunkban felismerhetünk egy hasonló Markov-láncot. Ennek az állapotai l
 
 Korábban már megadtuk a $p_i$ valószínűségeket, melyek pont ennek a láncnak az átmeneti valószínűségei lesznek:
 
-![Rendezés Markov-lánca](img/sort_markov.png)
+![Rendezés Markov-lánca](/assets/img/2022-04-12-barcsak-tudnek-rendezni/sort_markov.png)
 
 A kérdés pedig most az, hogy mennyi a várható lépések száma, amíg a lánc a $k$ állapotból a $0$ állapotba ér?
 
