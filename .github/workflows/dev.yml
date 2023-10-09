@@ -2,8 +2,7 @@ name: "Dev"
 on:
   push:
     branches:
-      - main
-      - master
+      - dev
     paths-ignore:
       - .gitignore
       - README.md
