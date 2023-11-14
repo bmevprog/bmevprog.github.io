@@ -18,6 +18,7 @@ lang: hu-HU
 timezone: Europe/Budapest
 
 remote_theme: nemkin/jekyll-theme-chirpy
+theme_mode: light
 
 toc: true
 paginate: 10
