@@ -2,7 +2,7 @@
 layout: post
 title: VProg önképzőkör 2023. ősz
 date: 2023-09-01 12:00:00 +0200
-summary: 'Ebben a félévben is indul a [BME VIK SZIT](https://cs.bme.hu/) szervezésében a Versenyprogramozás önképzőkör!'
+summary: 'Ebben a félévben is indul a BME VIK SZIT szervezésében a Versenyprogramozás önképzőkör!'
 categories: [onkepzokor]
 keywords: onkepzokor
 tags:
