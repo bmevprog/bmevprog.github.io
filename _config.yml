@@ -1,6 +1,6 @@
 title: VProg
-tagline: Magyar egyetemisták versenyprogramozási közössége. ICPC, Codeforces, LeetCode, stb.
-description: Magyar egyetemisták versenyprogramozási közössége. ICPC, Codeforces, LeetCode, stb.
+tagline: Hungarian college students' competitive programming student club.
+description: Hungarian college students' competitive programming student club. ICPC, Codeforces, LeetCode, etc.
 avatar: /assets/img/balloons-cartoon.png
 
 github:
@@ -12,9 +12,11 @@ social:
   links:
     - https://vprog.hu
     - https://github.com/versenyprogramozas
+    - https://youtube.com/@versenyprogramozas
+    - https://linkedin.com/company/versenyprogramozas
     - https://cs.bme.hu/icpc
 
-lang: hu-HU
+lang: en
 timezone: Europe/Budapest
 
 remote_theme: nemkin/jekyll-theme-chirpy

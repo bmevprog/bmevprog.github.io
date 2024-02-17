@@ -1,6 +1,5 @@
-# website
+# VProg
 
-Cikkek algoritmuselmélet és programozási versenyek témakörben.
+Articles about algorithms and competitive programming.
 
-https://versenyprogramozas.hu/  
 https://vprog.hu/
