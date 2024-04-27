@@ -25,7 +25,8 @@ theme_mode: light
 toc: true
 paginate: 10
 pwa:
-  enabled: true
+  enabled: false
+future: true
 
 plugins:
   - jekyll-remote-theme
