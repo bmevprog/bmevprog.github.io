@@ -1,5 +1,6 @@
 ---
 layout: post
+author: nemkin
 title: Google Code Jam 2021 - Qualification Round
 date: 2021-04-16 12:00:00 +0100
 summary: The 2021 Google Code Jam Qualification Round took place a few weeks ago.

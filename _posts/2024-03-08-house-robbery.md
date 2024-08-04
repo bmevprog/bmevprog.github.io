@@ -1,5 +1,6 @@
 ---
 layout: post
+author: nemkin
 title: House Robbery (learning dynamic programming)
 date: 2024-03-08 21:30:00 +0100
 summary: 'Solving LeetCode 198: House Robbery.'

@@ -1,5 +1,6 @@
 ---
 layout: post
+author: nemkin
 title: Wish I Knew How to Sort (an exercise in probability)
 date: 2022-04-12 12:00:00 +0100
 summary: 'In this post I would like to talk about solving 1753C: Wish I Knew How to Sort on Codeforces.'
