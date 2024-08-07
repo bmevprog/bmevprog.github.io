@@ -36,6 +36,8 @@ Here, you can see a possible search tree starting from node $1$. The dashed line
 
 To find possible soulutions, we can run a second DFS to count the vertices in the subtree of each bridge. Let the number of vertices be $n$ in the whole graph, and $k$ in the current subtree. Then the graph has $\binom{n}{2}$ paths in total, and we can break $k * (n - k)$ of those by removing the current edge.
 
+The complexity of this method is $O(n + m)$ since we only visit the vertices and edges once in each DFS.
+
 ## Implementation
 
 The below implementation involves a recursive version of DFS, extended to account for chords. A chord is considered finished, if both of its endpoints are finished. We determine an edge $(u, v)$ to be a bridge, if and only if there are no unfinished chords remaining in $v$'s subtree, after $v$ has been finished.
