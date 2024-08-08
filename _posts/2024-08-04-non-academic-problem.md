@@ -1,5 +1,6 @@
 ---
 layout: post
+author: leventegego
 title: Non-academic problem (Bridge Finding)
 date: 2024-07-04 12:00:00 +0100
 summary: 'Solving CF 1986F with bridge finding.'
