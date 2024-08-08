@@ -13,7 +13,7 @@ tags:
 math: true
 ---
 
-In [CF 1986F: Non-academic problem](https://codeforces.com/contest/1986/problem/F) we are given a simple graph. The graph is connected, meaning that every vertex can be reached from every other vertex. Our task is to ruin this property, as in "minimize the number of pairs $1 \leq u \lt v \leq n$, between which there exists a path". To do this, we are allowed to choose and remove a single edge.
+In [CF 1986F: Non-academic problem](https://codeforces.com/contest/1986/problem/F) we are given a simple undirected graph. The graph is connected, meaning that every vertex can be reached from every other vertex. Our task is to ruin this property, as in "minimize the number of pairs $1 \leq u \lt v \leq n$, between which there exists a path". To do this, we are allowed to choose and remove a single edge.
 
 ## Understanding the Problem
 
@@ -34,7 +34,7 @@ We can keep count of such chords, and when a vertex is finished, we can determin
 
 Here, you can see a possible search tree starting from node $1$. The dashed lines mark chords.
 
-To find possible soulutions, we can run a second DFS to count the vertices in the subtree of each bridge. Let the number of vertices be $n$ in the whole graph, and $k$ in the current subtree. Then the graph has $\binom{n}{2}$ paths in total, and we can break $k * (n - k)$ of those by removing the current edge.
+To find possible solutions, we can run a second DFS to count the vertices in the subtree of each bridge. Let the number of vertices be $n$ in the whole graph, and $k$ in the current subtree. Then the graph has $\binom{n}{2}$ paths in total, and we can break $k \cdot (n - k)$ of those by removing the current edge.
 
 The complexity of this method is $O(n + m)$ since we only visit the vertices and edges once in each DFS.
 
@@ -110,7 +110,7 @@ int main()
     int t; cin >> t; while(t--)
     {
         int n, m; cin >> n >> m;
-        vector<node> g(n, (node){ vector<edge>(), false, 0 });
+        vector<node> g(n);
         ff(i, m)
         {
             int u, v; cin >> u >> v; --u; --v;
