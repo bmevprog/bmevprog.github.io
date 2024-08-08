@@ -27,7 +27,7 @@ By removing an edge, the graph can be broken into two components. The number of 
 
 Notice that an edge is a bridge if and only if it does not belong to any cycle. If it is part of a cycle, then removing it does not break the graph because all paths that pass through the edge can be rerouted along the cycle. If it is not in any cycle, then there is no path that connects its two endpoints while avoiding the edge, and therefore removing it makes those two points disconnected.
 
-Cycles in a graph can be found via depth-first search. We can extend this algorithm to enumerate bridges. The DFS tree has the special property, that for every chord $(u, v)$, $v$ is either an ancestor, or a descendant of $u$. Since every cycle contains at least one chord, if an edge $(u, v)$ is contained in a cycle, then by searching $v$'s subtree, a chord that connects one of the descendants of $v$ to one of its ancestors can be found.
+Cycles in a graph can be found via depth-first search. We can extend this algorithm to enumerate bridges. The DFS tree has the special property, that for every chord $(u, v)$, $v$ is either an ancestor, or a descendant of $u$. A chord in this context is an edge that is not part of the spanning tree. Since every cycle contains at least one chord, if an edge $(u, v)$ is contained in a cycle, then by searching $v$'s subtree, a chord that connects one of the descendants of $v$ to one of its ancestors can be found.
 
 We can keep count of such chords, and when a vertex is finished, we can determine whether the edge between it and its parent is a bridge.
 
