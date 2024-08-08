@@ -27,13 +27,13 @@ By removing an edge, the graph can be broken into two components. The number of 
 
 Notice that an edge is a bridge if and only if it does not belong to any cycle. If it is part of a cycle, then removing it does not break the graph because all paths that pass through the edge can be rerouted along the cycle. If it is not in any cycle, then there is no path that connects its two endpoints while avoiding the edge, and therefore removing it makes those two points disconnected.
 
-Cycles in a graph can be found via depth-first search. We can extend this algorithm to enumerate bridges. The DFS tree has the special property, that for every chord $(u, v)$, $v$ is either an ancestor, or a descendant of $u$. A chord in this context is an edge that is not part of the spanning tree. Since every cycle contains at least one chord, if an edge $(u, v)$ is contained in a cycle, then by searching $v$'s subtree, a chord that connects one of the descendants of $v$ to one of its ancestors can be found.
+Cycles in a graph can be found via depth-first search. We can extend this algorithm to enumerate bridges. The DFS tree has the special property, that for every non-tree edge $(u, v)$ is a back edge, meaning that $v$ is an ancestor of $u$. Since every cycle contains at least one non tree edge, if an edge $(u, v)$ is contained in a cycle, then by searching $v$'s subtree, a back edge that connects one of the descendants of $v$ to one of its ancestors can be found.
 
-We can keep count of such chords, and when a vertex is finished, we can determine whether the edge between it and its parent is a bridge.
+We can keep count of such back edges, and when a vertex is finished, we can determine whether the edge between it and its parent is a bridge.
 
-![bridge](/assets/posts/2024-08-04-non-academic-problem/chords.svg)
+![bridge](/assets/posts/2024-08-04-non-academic-problem/back-edges.svg)
 
-Here, you can see a possible search tree starting from node $1$. The dashed lines mark chords.
+Here, you can see a possible search tree starting from node $1$. The dashed lines mark back edges.
 
 To find possible solutions, we can run a second DFS to count the vertices in the subtree of each bridge. Let the number of vertices be $n$ in the whole graph, and $k$ in the current subtree. Then the graph has $\binom{n}{2}$ paths in total, and we can break $k \cdot (n - k)$ of those by removing the current edge.
 
@@ -41,7 +41,7 @@ The complexity of this method is $O(n + m)$ since we only visit the vertices and
 
 ## Implementation
 
-The below implementation involves a recursive version of DFS, extended to account for chords. A chord is considered finished, if both of its endpoints are finished. We determine an edge $(u, v)$ to be a bridge, if and only if there are no unfinished chords remaining in $v$'s subtree, after $v$ has been finished.
+The below implementation involves a recursive version of DFS, extended to account for back edges. An edge is considered finished, if both of its endpoints are finished. We determine an edge $(u, v)$ to be a bridge, if and only if there are no unfinished back edges remaining in $v$'s subtree, after $v$ has been finished.
 
 In the second DFS, we count the vertices of the subtrees, and choose between the possible solutions at the bridges.
 
@@ -63,26 +63,26 @@ struct node
     vector<edge> adj;
 
     bool vis;
-    int chor;
+    int bck;
 };
 
 int dfs_bridge(vector<node> &g, int p, int i)
 {
     node &v = g[i];
-    if(v.vis) { ++v.chor; return 1; } // v.chor stores the number of chords that end in v
+    if(v.vis) { ++v.bck; return 1; } // v.bck stores the number of back edges that end in v
     v.vis = true;
 
-    int chor = 0; // count of the unfinished chords in the subgraph
+    int bck = 0; // count of the unfinished back edges in the subgraph
     for(edge &e : v.adj)
     {
         if(e.t == p) continue;
 
         int r = dfs_bridge(g, i, e.t);
-        chor += r;
+        bck += r;
         e.bridge = (r == 0); 
     }
-    // return the number of unfinished chords
-    return chor - v.chor * 2; // chords that end in v were counted from both sides
+    // return the number of unfinished back edges
+    return bck - v.bck * 2; // back edges that end in v were counted from both sides
 }
 
 int dfs_sol(vector<node> &g, int p, int i, ll &best)
