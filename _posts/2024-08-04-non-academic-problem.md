@@ -48,10 +48,7 @@ In the second DFS, we count the vertices of the subtrees, and choose between the
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
-using vi = vector<int>;
 using ll = long long;
-#define ff(i, n) for(int i = 0; i < (int)(n); ++i)
-
 
 struct edge
 {
@@ -63,10 +60,11 @@ struct node
     vector<edge> adj;
 
     bool vis;
-    int bck;
+    int bck; // helper variable for dfs_bridge
 };
+vector<node> g;
 
-int dfs_bridge(vector<node> &g, int p, int i)
+int dfs_bridge(int p, int i)
 {
     node &v = g[i];
     if(v.vis) { ++v.bck; return 1; } // v.bck stores the number of back edges that end in v
@@ -77,7 +75,7 @@ int dfs_bridge(vector<node> &g, int p, int i)
     {
         if(e.t == p) continue;
 
-        int r = dfs_bridge(g, i, e.t);
+        int r = dfs_bridge(i, e.t);
         bck += r;
         e.bridge = (r == 0); 
     }
@@ -85,7 +83,7 @@ int dfs_bridge(vector<node> &g, int p, int i)
     return bck - v.bck * 2; // back edges that end in v were counted from both sides
 }
 
-int dfs_sol(vector<node> &g, int p, int i, ll &best)
+int dfs_sol(int p, int i, ll &best)
 {
     node &v = g[i];
     if(v.vis) { return 0; }
@@ -96,7 +94,7 @@ int dfs_sol(vector<node> &g, int p, int i, ll &best)
     {
         if(e.t == p) continue;
 
-        int r = dfs_sol(g, i, e.t, best);
+        int r = dfs_sol(i, e.t, best);
         if(e.bridge)
             // best stores the largest number of paths that can be broken
             best = max(best, ((ll)g.size() - r) * r);
@@ -111,8 +109,8 @@ int main()
     int t; cin >> t; while(t--)
     {
         int n, m; cin >> n >> m;
-        vector<node> g(n);
-        ff(i, m)
+        g = vector<node>(n);
+        for(int i = 0; i < m; ++i)
         {
             int u, v; cin >> u >> v; --u; --v;
             g[u].adj.push_back({ v, false });
@@ -120,16 +118,17 @@ int main()
         }
 
         // find bridges
-        dfs_bridge(g, -1, 0);
+        dfs_bridge(-1, 0);
         for(node &v : g) v.vis = false;
 
         // find solutions
         ll best = 0;
-        dfs_sol(g, -1, 0, best);
+        dfs_sol(-1, 0, best);
         cout << (ll)n * (n - 1) / 2 - best << endl;
     }
 
     return 0;
 }
+
 
 ```
