@@ -169,10 +169,10 @@ These statements can be illustrated with a diagram:
 
 This is an example of a very simple Markov chain. The chain has $2$ possible states, "sunny" and "rainy". The random variable $X_i$ indicates the weather on day $i$. The above statements can be translated into the language of probability, with which we can specify the state transition probabilities of the chain:
 
-- The probability that the weather is sunny on day $i$, provided that it was also sunny on the previous day, $i-1$: $P(X_i = sunny | X_{i-1} = sunny) = 0.9$
-- The probability that the weather is rainy on day $i$, provided that it was sunny on the previous day, $i-1$: $P(X_i = rainy | X_{i-1} = sunny) = 0.1$
-- The probability that the weather is sunny on day $i$, provided that it was rainy on the previous day, $i-1$: $P(X_i = sunny | X_{i-1} = rainy) = 0.3$
-- The probability that the weather is rainy on day $i$, provided that it was also rainy on the previous day, $i-1$: $P(X_i = rainy | X_{i-1} = rainy) = 0.7$
+- The probability that the weather is sunny on day $i$, provided that it was also sunny on the previous day, $i-1$: $P(X_i = sunny \vert X_{i-1} = sunny) = 0.9$
+- The probability that the weather is rainy on day $i$, provided that it was sunny on the previous day, $i-1$: $P(X_i = rainy \vert X_{i-1} = sunny) = 0.1$
+- The probability that the weather is sunny on day $i$, provided that it was rainy on the previous day, $i-1$: $P(X_i = sunny \vert X_{i-1} = rainy) = 0.3$
+- The probability that the weather is rainy on day $i$, provided that it was also rainy on the previous day, $i-1$: $P(X_i = rainy \vert X_{i-1} = rainy) = 0.7$
 
 This can be described in a concise way by the transition probability matrix (usually denoted by $\Pi$):
 
