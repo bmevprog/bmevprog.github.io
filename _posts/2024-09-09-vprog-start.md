@@ -22,7 +22,7 @@ Aimed at 2nd year software engineers at BME, who are just starting out with comp
 
 This semester, we decided to turn VProg Intro into a video series, coming out weekly on Fridays.
 
-More details in the first video - uploaded a bit earlier - check it out here: https://youtu.be/j_AS8H_99uw
+More details in the first video - uploaded a bit earlier - check it out here: [https://youtu.be/j_AS8H_99uw](https://youtu.be/j_AS8H_99uw)
 
 ## VProg Advanced
 
