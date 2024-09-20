@@ -20,7 +20,7 @@ In [CF 1986F: Non-academic problem](https://codeforces.com/contest/1986/problem/
 
 By removing an edge, the graph can be broken into two components. The number of connected pairs we would eliminate is the product of the number of vertices in the components. However, not all edges can split the graph in this way. An edge that connects two, otherwise disconnected subgraphs is called a _bridge_. Bridges in the graph below are marked in red.
 
-![bridge](/assets/posts/2024-08-04-non-academic-problem/bridges.svg)
+![bridge](/assets/posts/2024-08-10-non-academic-problem/bridges.svg)
 
 
 ## Solution
@@ -31,7 +31,7 @@ Cycles in a graph can be found via depth-first search. We can extend this algori
 
 We can keep count of such back edges, and when a vertex is finished, we can determine whether the edge between it and its parent is a bridge.
 
-![bridge](/assets/posts/2024-08-04-non-academic-problem/back-edges.svg)
+![bridge](/assets/posts/2024-08-10-non-academic-problem/back-edges.svg)
 
 Here, you can see a possible search tree starting from node $1$. The dashed lines mark back edges.
 
