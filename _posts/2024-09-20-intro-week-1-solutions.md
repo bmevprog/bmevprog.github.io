@@ -3,7 +3,7 @@ layout: post
 author:
  - leventegego
  - nemkin
-title: 'VProg Intro: Week 1, Introduction'
+title: 'VProg Intro : Week 1, Introduction - Solutions'
 date: 2024-09-20 11:00:00 +0200
 summary: 'Solutions to the homeworks from Week 1.'
 categories: [vprog-intro]
@@ -11,6 +11,7 @@ keywords: vprog-intro, implementation
 tags:
  - vprog-intro
  - implementation
+ - solutions
 math: true
 ---
 
@@ -182,7 +183,7 @@ $\sum\limits_{x=1}^{n}\frac{1}{x}$ is $O(log n)$. This is because we can
 upper-estimate each $\frac{1}{x}$ with the closest fraction that has
 a power of $2$, in the following way:
 
-![](/assets/posts/2024-09-20-intro-week-1/harmonic-sequence.jpg)
+![](/assets/posts/2024-09-20-intro-week-1-solutions/harmonic-sequence.jpg)
 
 With similar logic $\sum\limits_{x=1}^{n} \lfloor \frac{n}{x} \rfloor$ is then $O(n \log n)$.
 
