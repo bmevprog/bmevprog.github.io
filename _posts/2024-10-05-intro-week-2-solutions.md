@@ -114,3 +114,29 @@ int main()
   return 0;
 }
 ```
+
+## HW3: Container with most water
+
+https://leetcode.com/problems/container-with-most-water/description/
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int n = height.size();
+        int i=0, j=n-1;
+        int maxarea=0;
+        while(i<j)
+        {
+            int area = min(height[i], height[j]) * (j-i);
+            maxarea = max(area, maxarea);
+            if(height[i] < height[j]) ++i;
+            else --j;
+        }
+        return maxarea;
+    }
+};
+```
