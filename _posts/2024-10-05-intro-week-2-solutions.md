@@ -167,3 +167,65 @@ public:
   }
 };
 ```
+
+## Challenge: Vasya and Arrays
+
+Let's call the operation Vasya performs a merge.
+
+In this exercise we have a new setup: our two pointers will be moving through two
+separate arrays.
+
+We start with both pointers pointing to the first elements of their respective
+arrays. If those elements are equal, we are lucky, there is no need to merge
+them with anything! In fact, if we were to merge here, any solution we end up
+with could be improved by "unmerging" these elements, so it would never be
+optimal to merge these numbers. Therefore, we keep them as is and move both
+pointers to the next elements of their arrays.
+
+If the two current elements are not equal, we will start merging in one of
+the arrays: if $a[i] < b[j]$, we have to increase our current element's value
+in array `a`, otherwise it would never match to array `b`. Therefore we merge
+`a[i]` with `a[i+1]`.
+
+Similarly, if $a[i] > b[j]$ we do the same in array `b`.
+
+A little implementation trick here is to not remove any merged elements from
+the arrays, simply add `a[i]` to `a[i+1]` and increment `i`. This allows us to
+keep track of the current elements, without needing to do costly removals.
+
+In the end, if we are able to finish both of our arrays, we have successfully
+made them equal. If our loop exited with one array still having remaining elements,
+it means that they cannot be made equal. (This is the case, for example, when their
+sum is different.)
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+  
+int main()
+{
+  int n; cin>>n; vector<ll> a(n); for(auto& ai: a) cin>>ai;
+  int m; cin>>m; vector<ll> b(m); for(auto& bi: b) cin>>bi;
+  int ans=0;
+
+  int i=0, j=0;
+  while(i<n && j<m)
+  {
+    if(a[i] == b[j]) { ++i; ++j; ++ans; }
+    else if(a[i] < b[j])
+    {
+      if(i < n-1) { a[i+1] += a[i]; ++i; }
+      else break;
+    }
+    else if(a[i] > b[j])
+    {
+      if(j < m-1) { b[j+1] += b[j]; ++j; }
+      else break;
+    }
+  }
+  if(i<n || j<m) cout << -1 << endl;
+  else cout << ans << endl;
+  return 0;
+}
+```
