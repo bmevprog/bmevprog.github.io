@@ -3,7 +3,7 @@ layout: post
 author:
  - nemkin
 title: 'VProg Intro : Week 2, Two Pointers - Solutions'
-date: 2024-10-05 18:00:00 +0200
+date: 2024-10-11 18:00:00 +0200
 summary: 'Solutions to the homeworks from Week 2.'
 categories: [vprog-intro]
 keywords: vprog-intro, twoptr
@@ -95,9 +95,11 @@ We handle the case when `nums[i]` itself is too large separately, stepping
 both pointers off of it and initializig `prod` again with $1$.
 
 ```cpp
-class Solution {
+class Solution
+{
 public:
-  int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+  int numSubarrayProductLessThanK(vector<int>& nums, int k)
+  {
     int n = nums.size();
     int ans = 0;
 
@@ -121,26 +123,25 @@ public:
 
 ## HW3: Container with most water
 
-https://leetcode.com/problems/container-with-most-water/description/
+[LC 11](https://leetcode.com/problems/container-with-most-water)
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-class Solution {
+class Solution
+{
 public:
-    int maxArea(vector<int>& height) {
-        int n = height.size();
-        int i=0, j=n-1;
-        int maxarea=0;
-        while(i<j)
-        {
-            int area = min(height[i], height[j]) * (j-i);
-            maxarea = max(area, maxarea);
-            if(height[i] < height[j]) ++i;
-            else --j;
-        }
-        return maxarea;
+  int maxArea(vector<int>& height)
+  {
+    int n = height.size();
+    int i=0, j=n-1;
+    int maxarea=0;
+    while(i<j)
+    {
+      int area = min(height[i], height[j]) * (j-i);
+      maxarea = max(area, maxarea);
+        if(height[i] < height[j]) ++i;
+        else --j;
     }
+    return maxarea;
+  }
 };
 ```
