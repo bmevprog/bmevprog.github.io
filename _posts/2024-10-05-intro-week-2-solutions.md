@@ -20,8 +20,8 @@ math: true
 
 This exercise is similar to the TwoSum one in the video. We iterate 
 the input vector, checking all possible candidates for the first number
-of the three, inside the loop we do the same two pointer technique
-as for 2SUM, to find the two other numbers of the triplets.
+of the three. Inside the loop we do the same Left/Right two pointer
+technique as for TwoSum, to find the two other numbers of the triplets.
 
 Since we are now looking for all solutions, we collect them
 in a container and return it at the end. Because the input vector
@@ -72,47 +72,51 @@ public:
 
 ## HW2: Subarray Product Less Than K
 
-https://leetcode.com/problems/subarray-product-less-than-k
+[LC 713](https://leetcode.com/problems/subarray-product-less-than-k)
+
+We should find the longest subarray for each starting index where the product
+of all elements is less than $k$. Since the numbers are at least $1$, any
+prefix of this array is also a solution and anything longer than this cannot
+be a solution. So once we have the longest subarray like this, we can count
+each prefix as a valid solution.
+
+The longest subarrays can be found using the Slow/Fast two pointer approach.
+The left bound increases step by step, while the right bound is increased till
+the product is small enough. For each $i$, $j$ will point to the first element
+in the array, for which the product of the numbers `nums[i]` to `nums[j]` will
+be too much. So $j-1$ is the last valid index. Therefore, we have exactly $j-i$
+valid prefixes.
+
+At the end of the loop, before we increment $i$, we must pay attention to also
+divide our current product with the number we are stepping off of, since it
+won't be a part of our subarray when the loop restarts.
+
+We handle the case when `nums[i]` itself is too large separately, stepping
+both pointers off of it and initializig `prod` again with $1$.
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
 class Solution {
 public:
   int numSubarrayProductLessThanK(vector<int>& nums, int k) {
     int n = nums.size();
+    int ans = 0;
 
     int i=0, j=0;
-    int curr = 1;
-    int count = 0;
+    int prod = 1;
     for(int i=0; i<n; ++i)
     {
-      while(j<n && curr * nums[j] < k)
+      while(j<n && prod * nums[j] < k)
       {
-        curr *= nums[j];
+        prod *= nums[j];
         ++j;
       }
-      count += j-i;
-      if(nums[i] < k) curr /= nums[i];
-      else { j=i+1; curr = 1; }
+      ans += j-i;
+      if(nums[i] < k) prod /= nums[i];
+      else { j=i+1; prod = 1; }
     }
-    return count;
+    return ans;
   }
 };
-
-int main()
-{
-  ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-  int t; cin>>t; while(t--)
-  {
-    int n, k; cin>>n>>k;
-    vector<int> a(n); for(auto& ai: a) cin>>ai;
-    Solution s;
-    cout << s.numSubarrayProductLessThanK(a, k) << endl;
-  }
-  return 0;
-}
 ```
 
 ## HW3: Container with most water
