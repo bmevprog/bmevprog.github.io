@@ -84,12 +84,12 @@ The longest subarrays can be found using the Slow/Fast two pointer approach.
 The left bound increases step by step, while the right bound is increased till
 the product is small enough. For each $i$, $j$ will point to the first element
 in the array, for which the product of the numbers `nums[i]` to `nums[j]` will
-be too much. So $j-1$ is the last valid index. Therefore, we have exactly $j-i$
+be too much. Therefore $j-1$ is the last valid index, we have exactly $j-i$
 valid prefixes.
 
 At the end of the loop, before we increment $i$, we must pay attention to also
-divide our current product with the number we are stepping off of, since it
-won't be a part of our subarray when the loop restarts.
+divide our current product with the number we are stepping off of, `nums[i]`
+since it won't be a part of our subarray when the loop restarts.
 
 We handle the case when `nums[i]` itself is too large separately, stepping
 both pointers off of it and initializig `prod` again with $1$.
