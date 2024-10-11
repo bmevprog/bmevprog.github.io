@@ -1,7 +1,8 @@
 ---
 permalink: /git
 redirect_to:
-  - https://github.com/versenyprogramozas
+  - https://github.com/bmevprog
 redirect_from:
   - /github
+  - /gh
 ---
