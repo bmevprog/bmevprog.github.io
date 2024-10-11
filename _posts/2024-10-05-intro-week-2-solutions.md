@@ -229,3 +229,10 @@ int main()
   return 0;
 }
 ```
+
+This type of two pointers technique appears, for example, in the
+[merge operation](https://en.wikipedia.org/wiki/Merge_algorithm)
+of the
+[merge sort algorithm](https://en.wikipedia.org/wiki/Merge_sort).
+In that case, the two pointers iterate the two sorted
+arrays, always appending the smaller element to the resulting array.
