@@ -125,6 +125,27 @@ public:
 
 [LC 11](https://leetcode.com/problems/container-with-most-water)
 
+This exercise is a bit more challenging than the previous ones.
+
+We can quickly notice, that sorting is not a possibility here, because we
+are concerned not only with the heights, but also the widths, i.e. the
+distances of the vertical lines.
+
+However, a Left/Right two pointer approach will work here, with the following
+reasoning: Start out with the widest possible container, the left pointer $i=0$
+and the right pointer $j=n-1$. Between `height[i]` and `height[j]`, the shorter
+one determines the area of the container, let's say the shorter one is at the
+left, pointer $i$.
+
+Fixing $i$, is there any way to get a bigger container? No, because `height[i]`
+is an upper limit on how tall the container can be, so even if the other line
+is taller, it won't make the area bigger. Furthermore, we have the longest
+possible width right now, our $j$ pointer will only step closer to $i$, so
+the width can only decrease.
+
+Therefore, there is no other solution to be considered that includes pointer $i$,
+we can step off of it now. And the argument is similar for pointer $j$.
+
 ```cpp
 class Solution
 {
