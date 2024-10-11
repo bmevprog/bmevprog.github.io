@@ -252,7 +252,7 @@ and also `std::cin`and `std:cout`, which are implemented differently.
 To allow freely mixing the two types of I/O's, C++ by default synchronizes
 the two streams, applying each I/O operation on a C++ stream onto the
 corresponding C stream's buffer. If you don't use C-style I/O,
-you can disable this behaviour by calling `ios::sync_with_stdio(0)`.
+you can disable this behaviour by calling `std::ios::sync_with_stdio(0)`.
 This will make your C++ I/O considerably faster.
 
 Furthermore, by default C++ will flush the `std::cout` buffer before every
@@ -266,6 +266,6 @@ or `cout << endl`, the latter printing a line ending as well.
 
 References:
 
-- [io::sync_with_stdio](https://en.cppreference.com/w/cpp/io/ios_base/sync_with_stdio)
-- [io::tie](https://en.cppreference.com/w/cpp/io/basic_ios/tie)
+- [std::ios::sync_with_stdio](https://en.cppreference.com/w/cpp/io/ios_base/sync_with_stdio)
+- [std::tie](https://en.cppreference.com/w/cpp/io/basic_ios/tie)
 - [std::flush](https://en.cppreference.com/w/cpp/io/manip/flush)
