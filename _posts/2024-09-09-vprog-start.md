@@ -1,14 +1,17 @@
 ---
 layout: post
 author: nemkin
-title: 'VProg Student Club'
-summary: 'Autumn 2024'
+title: 'VProg Intro : Week 1, Introduction + VProg Advanced Student Club'
+summary: 'Autumn 2024, VProg Intro video'
 date: 2024-09-09 13:35:00 +0200
-categories: [vprog, starting]
-keywords: vprog, starting
+categories: [vprog, vprog-intro, starting, introduction]
+keywords: vprog, vprog-intro, starting, introduction
 tags:
  - vprog
+ - vprog-intro
  - starting
+ - introduction
+ - video
 math: false
 ---
 
@@ -22,7 +25,18 @@ Aimed at 2nd year software engineers at BME, who are just starting out with comp
 
 This semester, we decided to turn VProg Intro into a video series, coming out weekly on Fridays.
 
-More details in the first video - uploaded a bit earlier - check it out here: [https://youtu.be/j_AS8H_99uw](https://youtu.be/j_AS8H_99uw)
+More details in the first video - uploaded a bit earlier - check it out here:
+
+<iframe
+  width="100%"
+  src="https://www.youtube.com/embed/j_AS8H_99uw?si=ZOCLSdc3fTAB56ly"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+  style="aspect-ratio: 16 / 9;"
+></iframe>
 
 ## VProg Advanced
 
