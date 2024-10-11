@@ -205,6 +205,7 @@ using ll = long long;
   
 int main()
 {
+  ios::sync_with_stdio(0); cin.tie(0);
   int n; cin>>n; vector<ll> a(n); for(auto& ai: a) cin>>ai;
   int m; cin>>m; vector<ll> b(m); for(auto& bi: b) cin>>bi;
   int ans=0;
@@ -236,3 +237,35 @@ of the
 [merge sort algorithm](https://en.wikipedia.org/wiki/Merge_sort).
 In that case, the two pointers iterate the two sorted
 arrays, always appending the smaller element to the resulting array.
+
+### FastIO
+
+An important note on this exercise is that the solution without the line
+`ios::sync_with_stdio(0); cin.tie(0);` will result in a
+`Time Limit Exceeded` verdict, simply because the input size is very
+large.
+
+In C++, we have access to both the C-style standard streams `stdin`
+and `stdout` (using functions, such as `std::scanf` and `std::printf`)
+and also `std::cin`and `std:cout`, which are implemented differently.
+
+To allow freely mixing the two types of I/O's, C++ by default synchronizes
+the two streams, applying each I/O operation on a C++ stream onto the
+corresponding C stream's buffer. If you don't use C-style I/O,
+you can disable this behaviour by calling `ios::sync_with_stdio(0)`.
+This will make your C++ I/O considerably faster.
+
+Furthermore, by default C++ will flush the `std::cout` buffer before every
+`std::cin` operation, to print whatever output the program produced, for
+example giving the user a nice prompt, asking them to input something,
+before `std::cin` runs. In a *non-interactive problem*, this is
+completely unnecessary and can be disabled by calling `cin.tie(0)`.
+
+If you ever need to flush `std::cout`, you can manually run `cout << flush`,
+or `cout << endl`, the latter printing a line ending as well.
+
+References:
+
+- [io::sync_with_stdio](https://en.cppreference.com/w/cpp/io/ios_base/sync_with_stdio)
+- [io::tie](https://en.cppreference.com/w/cpp/io/basic_ios/tie)
+- [std::flush](https://en.cppreference.com/w/cpp/io/manip/flush)
