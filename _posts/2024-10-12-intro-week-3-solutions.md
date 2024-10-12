@@ -397,46 +397,48 @@ int main()
 }
 ```
 
-Solution via just implement it:
+### Going backwards
 
-#go-backwards
+Sometimes, thinking about a problem in *reverse* can make it easier to solve.
+Imagine starting on the last day with an IQ of 0 and moving *backwards in time*.
+We can simulate the process in reverse like this:
 
-- You should reverse the process, start from the last day and go to the beginning.
-- You start with 0 IQ and increase your IQ whenever you need it to contest on the current day. 
-- You can increase your IQ up to your initial IQ number, after that, you are only allowed to take contests that are not more difficult than your IQ.
-
+- While our current IQ is less than our original starting IQ, we attempt all contests.
+- Each time we try a contest that is harder than our current IQ level, our IQ increases.
+- We can keep increasing our IQ until we reach our starting IQ.
+- Once we've reached our starting IQ, we can only attempt contests that are not more difficult than our IQ.
 
 ```cpp
-// https://codeforces.com/contest/1707/submission/207281290
-
 #include <bits/stdc++.h>
 using namespace std;
   
 int main() {
-  
-  int cases; cin>>cases;
-  
-  while(cases--) {
-  
+  int t; cin>>t; while(t--)
+  {
     int n, q; cin>>n>>q;
-    vector<int> a(n);
-    vector<int> sol(n);
-    for(int i=0; i<n; ++i) cin>>a[i];
+    vector<int> a(n); for(auto& ax: a) cin>>ax;
   
-    int current_q = 0;
-    for(int i=n-1; 0<=i; --i) {
-      if (a[i] <= current_q) {
-        sol[i] = 1;
-      } else if (current_q < q){
-        ++current_q;
-        sol[i] = 1;
+    vector<int> ans(n);
+    int q_curr = 0;
+    for(int i=n-1; 0<=i; --i)
+    {
+      if (a[i] <= q_curr) ans[i] = 1;
+      else if (q_curr < q)
+      {
+        ans[i] = 1;
+        ++q_curr;
       }
     }
-  
-    for(int i=0; i<n; ++i) cout<<sol[i];
+    for(auto& ansx: ans) cout<<ansx;
     cout<<endl;
   }
-  
   return 0;
 }
 ```
+
+You may have noticed that there is a tiny discrepancy here: If the difficulty of
+a contest is $x$ and our current IQ is $x-1$, we would be increasing it, which
+means our IQ was $x$ before testing, in which case we should not have lost
+IQ testing that contest. Luckily, this only happens when the optimal solution
+allows for some IQ left over at the end. For example, when `n=3, q=3, a=[4,3,3,3]`,
+the optimal solution is `ans=[0,1,1,1]`, which leaves us with $1$ IQ at the end.
