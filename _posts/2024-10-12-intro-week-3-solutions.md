@@ -221,18 +221,25 @@ It is useful to think about what will happen when our interval
 shrinks to size 2, this is where we can accurately set the +1/-1's
 in our equations.
 
+### Direct implementation - A numerically stable quadratic formula
+
+For a specific $w$, the amount of cardboard we are using for a picture
+of size $p_i$ can be calculated as follows:
+
+![](/assets/posts/2024-10-12-intro-week-3-solutions/cardboard.png)
+
+The total amount of cardboard should be $c$, therefore our equation is
+
+$$4n\cdot{}w^2  + (4\sum\limits_{i=1}^{n} p_i)\cdot{}w + p_i^2 = c$$
+
+, which we need to solve for $w$.
+
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
 
-// PTVF Numerical Recipes 5.6.4, 5.6.5:
-// Solve ax^2 + bx + c = 0.
-
-// numerical stability
-// substracting two near equal numbers
-// see loss of significance / catastrophic cancellation
-
+// solve ax^2 + bx + c = 0
 const double eps = 1e-14;
 vector<double> quadsolve(double a, double b, double c)
 {
@@ -270,6 +277,29 @@ int main()
 }
 ```
 
+The `vector<double> quadsolve(double a, double b, double c)` function above finds the roots of the quadratic formula $ax^2 + bx + c = 0$. Mathematically, the roots are given by
+
+$$x_{1,2} = \frac{-b \pm \sqrt{D}}{2a}$$
+
+, where $D = b^2 - 4ac$ is the discriminant.
+
+
+There are two important implementation details in this code:
+
+Firstly, we must always allow for some numerical precision error.
+So we set $\varepsilon = 10^{-14}$ and consider a variable $x$ to be $0$ whenever
+$x \in [-\varepsilon, \varepsilon]$, and to be negative or positive only outside of this interval.
+
+Secondly, there is one numerical stability issue in the quadratic
+equation: if the value of $\sqrt{D}$ is close to $|b|$, then one
+of the two possible values of $b \pm \sqrt{D}$ can be
+too small, which results in [*catastrophic cancellation*](https://en.wikipedia.org/wiki/Catastrophic_cancellation) of the terms - a loss of significance during our calculations.
+
+The implementation above avoids this issue by calculating the value which does not suffer from this issue and using [Vieta's formula](https://en.wikipedia.org/wiki/Vieta%27s_formulas#Example)
+$x_1 \cdot x_2 = \frac{c}{a}$ to find the value of the other.
+
+For more details, see the PTVF Numerical recipes book,
+equations 5.6.4, 5.6.5 in the 2nd edition.
 
 ## Challenge: Doremy's IQ
 
