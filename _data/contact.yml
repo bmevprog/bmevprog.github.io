@@ -1,12 +1,44 @@
 #  The contact options.
 
-- type: email
-  icon: "fa-solid fa-envelope"
-  noblank: true # open link in current tab
+- type: discord
+  url: https://vprog.hu/discord
+  icon: "fa-brands fa-discord"
+  color: "#7289da"
+
+- type: github
+  url: https://github.com/bmevprog
+  icon: "fa-brands fa-github"
+  color: "#333"
+
+- type: youtube
+  url: https://www.youtube.com/@bmevprog
+  icon: "fa-brands fa-youtube"
+  color: "#ff0000"
+
+- type: facebook
+  url: https://www.facebook.com/bmevprog
+  icon: "fa-brands fa-facebook-square"
+  color: "#3b5998"
+
+- type: instagram
+  url: https://www.instagram.com/bmevprog
+  icon: "fa-brands fa-instagram"
+  color: "#e1306c"
+
+- type: twitter
+  url: https://www.twitter.com/bmevprog
+  icon: "fa-brands fa-twitter"
+  color: "#1da1f2"
+
+- type: linkedin
+  url: https://www.linkedin.com/company/bmevprog
+  icon: "fa-brands fa-linkedin"
+  color: "#0077b5"
 
 - type: rss
   icon: "fa-solid fa-rss"
   noblank: true
 
-- type: github
-  icon: "fa-brands fa-github"
+- type: email
+  icon: "fa-solid fa-envelope"
+  noblank: true # open link in current tab
