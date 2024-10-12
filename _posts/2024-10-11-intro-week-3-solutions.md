@@ -18,61 +18,68 @@ math: true
 
 [LC 2300](https://leetcode.com/problems/successful-pairs-of-spells-and-potions)
 
-- Binary search on the interval of possible answers.
-- We can do this because if a spell is effective with a potion, then it will be with larger ones too. -> The space of possible answers is ordered!
+For each spell, we are looking for the number of potions that will form a successful pair with it.
+We can first order the potions by increasing strength. Then, for each spell we can perform a binary search
+on the sorted potions array, looking for the smallest strength potion, that will still succeed, when
+paired with that spell. Then, any potion stronger than this will also succeed, while anything weaker
+will fail. So we can count the number of potions on the right side of the minimal successful one.
+
+You can implement the binary search by hand in the following way:
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-// int = 4 bytes = 32 bits
-// long long = 8 bytes 64 bits
-// long ? 4 bytes = 32 bits
+using ll = long long;
 
 class Solution {
 public:
-     bool checker(int spell, int potion, long long success) {
-       return ((long long)(spell)*(long long)(potion)>=success);
-     }
+  bool successful(ll spell, ll potion, ll success) { return success <= spell * potion; }
 
-    vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
-        std::sort(potions.begin(), potions.end());
+  vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, ll success)
+  {
+    std::sort(potions.begin(), potions.end());
+    std::vector<int> ans;
+    
+    for(auto& spell : spells)
+    {
+      int lo = 0;
+      int hi = potions.size();
 
-        // Binary search on the interval of possible answers.
-        // We can do this because if a spell is effective with a potion, then it will be with larger ones too.
-        // -> The space of possible answers is ordered!
-        std::vector<int> result;
-        // Loop invariants:
-        // A way to prove correctness of binary search.
-        // They are true before entering the loop.
-        // Each loop execution keeps them true if they were true at start.
-        for(auto& spell : spells) {
-          // Loop invariant. The smallest good answer is in this interval & the right pointer is pointing to a good answer.
-        int left = 0;
-        int right = potions.size();
+      while(lo < hi)
+      {
+        int mid = (hi-lo)/2 + lo;
+        if (successful(spell, potions[mid], success))
+          hi = mid;
+        else
+          lo = mid + 1;
+      }
+      ans.push_back(potions.size()-lo);
+    }
+    return ans;
+  }
+};
+```
 
-        while(left < right) { // While the interval has more than one element left.
-          int mid = (left + right) / 2; // We point to the middle.
-          //int hours = checker(piles, mid); // Check it.
-          if (checker(spell, potions[mid], success)) { // -> If that is a good answer &
-            // we are looking for the smallest good answer in the ordered space, we can exclude the upper half, they are all bigger good answers!
-            right = mid; // So just set right end to mid.
-            // This retains the loop invariant: smallest answer is still in the interval and right is still a good answer.
-          } else { // -> If that is a bad answer &
-            // we are looking for the smallest good answer in the ordered space, we can exclude the lower half, they are all bad answers!
-            left = mid + 1;  // So just set left end to mid+1.
-            // We just checked that mid is a bad answer, so we can exclude that as well.
-            // This retains the loop invariant: smallest answer is still in the interval and right is still a good answer, if it was previously.
-          }
-        }
-        // So at the end of execution, the loop invariants have been kept true!
-        // And the size of my interval is 1!
-        // And the loop invariant says that the smallest possible good answer is in the interval!
-        // So the single element of the interval is the smallest possible good answer!
-        result.push_back(potions.size()-left); // So just return it (return right; would work too).
-        }
-        return result;
-     }
+Or in this case, since the potions array is already 'materialized' in the memory, you can
+use `std::lower_bound` too:
+
+```cpp
+using ll = long long;
+
+class Solution {
+public:
+
+  vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, ll success)
+  {
+    std::sort(potions.begin(), potions.end());
+    std::vector<int> ans;
+    
+    for(auto& spell : spells)
+    {
+      ll minpotion = (success+spell-1)/spell;
+      int count = potions.end() - lower_bound(potions.begin(), potions.end(), minpotion);
+      ans.push_back(count);
+    }
+    return ans;
+  }
 };
 ```
 
