@@ -11,6 +11,6 @@ PhD student at BME VIK SZIT
 [nemkin(at)cs.bme.hu](mailto:nemkin@cs.bme.hu)  
 [cs.bme.hu/~nemkin](https://cs.bme.hu/~nemkin)
 
-### ICPC @ BME VIK SZIT
+### ICPC @ BME
 
 [https://cs.bme.hu/icpc](https://cs.bme.hu/icpc)
