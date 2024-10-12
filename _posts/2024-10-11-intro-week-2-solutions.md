@@ -170,6 +170,8 @@ public:
 
 ## Challenge: Vasya and Arrays
 
+[CF 1036D](https://codeforces.com/contest/1036/problem/D)
+
 Let's call the operation Vasya performs a merge.
 
 In this exercise we have a new setup: our two pointers will be moving through two
