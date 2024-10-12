@@ -308,14 +308,6 @@ equations 5.6.4, 5.6.5 in the 2nd edition.
 - We need an $O(n)$ or $O(n*log(n))$ solution, $O(n^2)$ would be out of time.
 - Observation: If you need to take a contest that would lower your IQ, it is always better to choose a later one, so you have higher IQ for the contests between those.
 
-Solution via just implement it:
-
-#go-backwards
-
-- You should reverse the process, start from the last day and go to the beginning.
-- You start with 0 IQ and increase your IQ whenever you need it to contest on the current day. 
-- You can increase your IQ up to your initial IQ number, after that, you are only allowed to take contests that are not more difficult than your IQ.
-
 Solution via binary search:
 
 - A good strategy would be: first start taking contests that don't lower your IQ, then at a certain point just take all of the contests. The question is which position should you change your strategy? 
@@ -325,52 +317,66 @@ Solution via binary search:
 - You can do a binary search to find the leftmost viable position! That will be $log(n)$ times the check, which is $O(n)$, so $O(nlog(n))$!
 
 ```cpp
-# https://codeforces.com/contest/1707/submission/207278595
+#include <bits/stdc++.h>
+using namespace std;
 
-num = int(input())
-for i in range(num):
-    n, q = map(int, input().split(" "))
-    tests = list(map(int, input().split(" ")))
-    
-    def test_barrier(pos):
-        ans = []
-        current_q = q
-        for index, t in enumerate(tests):
-            if index < pos:
-                if t <= current_q:
-                    # We take it & our IQ doesn't decrease.
-                    ans.append(1)
-                else:
-                    # We don't take it.
-                    ans.append(0)
-            else:
-                if t <= current_q:
-                    # We take it & our IQ doesn't decrease.
-                    ans.append(1)
-                else:
-                    # We do take it & our IQ decreases!
-                    current_q-=1
-                    ans.append(1)
-            if current_q<0:
-                return (False, ans)
-                    
-        return (True, ans)
-  
-    left = 0
-    right = n
-    # Loop invariant: The interval contains the solution.
-    while left < right:
-        mid = (left + right) // 2
-        # X X X X Y Y Y Y Y
-        is_correct, _ = test_barrier(mid)
-        if(is_correct):
-            right = mid
-        else:
-            left = mid + 1
-    
-    _, ans = test_barrier(left)
-    print("".join(map(str, ans)))
+int n, q;
+vector<int> a;
+
+bool doremy_result(int from, vector<int>& ans)
+{
+  ans.assign(n, {});
+
+  int q_left = q;
+  for(int i=0; i<from; ++i)
+  {
+    ans[i] = (a[i] <= q_left);
+  }
+  for(int i=from; i<n; ++i)
+  {
+    ans[i] = !!q_left;
+    q_left -= (q_left < a[i]);
+  }
+  return 0 <= q_left;
+}
+
+int main()
+{
+  ios::sync_with_stdio(0); cin.tie(0);
+  int t; cin>>t; while(t--)
+  {
+    cin>>n>>q;
+    a.assign(n, {}); for(auto& ax: a) cin>>ax;
+
+    vector<int> ans;
+
+    int lo=0;
+    int hi=n;
+    while (lo<hi)
+    {
+      int mid = (hi-lo)/2 + lo;
+      if (doremy_result(mid, ans))
+        hi = mid;
+      else
+        lo = mid+1;
+    }
+    doremy_result(lo, ans);
+
+    for(int i=0; i<n; ++i) cout << ans[i];
+    cout << endl;
+  }
+  return 0;
+}
 ```
+
+Solution via just implement it:
+
+#go-backwards
+
+- You should reverse the process, start from the last day and go to the beginning.
+- You start with 0 IQ and increase your IQ whenever you need it to contest on the current day. 
+- You can increase your IQ up to your initial IQ number, after that, you are only allowed to take contests that are not more difficult than your IQ.
+
 
 ```cpp
 // https://codeforces.com/contest/1707/submission/207281290
