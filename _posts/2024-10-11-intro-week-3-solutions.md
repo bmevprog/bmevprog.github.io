@@ -142,134 +142,118 @@ public:
 
 [CF 1850E](https://codeforces.com/contest/1850/problem/E)
 
-- Solution via Binary search
-- Solution via Just implement it
+In many cases, exercises where a binary search is possible also allow for
+direct solutions. This exercise is one of those. The question is, would you
+rather implement a quadratic solver on floating point numbers or a binary
+search on integers?
 
+The correct answer is the latter, so let's look at binary search first.
 
 ```cpp
-// https://codeforces.com/contest/1850/submission/223932370
-
 #include <bits/stdc++.h>
 using namespace std;
-  
-typedef long long ll;
-typedef long l;
-typedef vector<int> vi;
-typedef vector<vector<int>> vvi;
-typedef vector<l> vl;
-typedef vector<vector<l>> vvl;
-typedef vector<ll> vll;
-typedef vector<vector<ll>> vvll;
-#define all(v) v.begin(), v.end()
-#define printv(v) for(int i=0;i<(int)v.size();i++){cout<<v[i]<<' ';}cout<<endl;
-#define printvv(v) for(int i=0;i<(int)v.size();i++){for(int j=0;j<(int)v[i].size();j++){cout<<v[i][j]<<' ';}cout<<endl;}cout<<endl;
 
-ll caculate(vll& a,ll x){
-    ll c=0;
-    for(int i=0; i<(int)a.size(); i++){
-        //(a[i]-x)*(a[i]-x) we know is aroudn 4e18
-        //c<=2e18. So everytime it goes above that just set it to 2e18
-        // 4e18+2e18<9e18
-        ll max=2e18;
-        ll n=(a[i]+2*x)*(a[i]+2*x);
-        c=min(max,c+n);
-    }
-    /* cout<<c<<endl; */
-    return c;
-}
-  
-void solve(){
-    ll n,c; cin>>n>>c;
-    vll a(n);
-    for(int i=0; i<n; i++) cin>>a[i];
-    ll l=0; ll h=1e9;
-    while(l<h){
-        ll x = (l+h)/2;
-        ll r = caculate(a,x);
-        if(r<c){
-            l=x;
-        }else if(r>c){
-            h=x;
-        }else{
-            l=x;
-            break;
-        }
-        /* cout<<"l:"<<l<<" h:"<<h<<" r:"<<r<<endl; */ 
-    }
-    cout<<l<<endl;
-}
-  
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-  
-    int t; cin>>t;
-    while(t--) solve();
-  
-    return 0;
-}
-  
-/*      Description:
-  *
-  */
-```
+using ll = long long;
+const ll maxll = numeric_limits<ll>::max();
+const ll maxllsq = sqrt(maxll);
 
-```cpp
-// https://codeforces.com/contest/1850/submission/216618649
-
-#include <iostream>
-#include <vector>
-#include <list>
-#include <set>
-#include <map>
-#include <string>
-#include <algorithm>
-#include <cmath>
-  
-using namespace std;
-typedef long long ll;
-typedef unsigned long long ull;
-typedef pair<int, int> pii;
-  
+ll n, c;
+vector<ll> p;
+ 
+bool fits(ll w)
+{
+  ll total = 0;
+  for(auto& px : p)
+  {
+    ll side = px + 2 * w;  if (maxllsq < side) return false;
+    ll add = side * side;  if (maxll - add < total) return false;
+    total += add;          if (c < total) return false;
+  }
+  return true;
+}
+ 
 int main()
 {
-    ios::sync_with_stdio(false);
-    // cin.tie(NULL);
-  
-    int t;
-    cin >> t;
-    while(t--)
+  int t; cin>>t; while(t--)
+  {
+    cin >> n >> c;
+    p.assign(n, {}); for(auto& px : p) cin>>px;
+
+    ll lo = 1;
+    ll hi = c;
+    while (lo < hi)
     {
-        ll n, c;
-        cin >> n >> c;
-  
-        vector<ll> a(n);
-        for(ll &x : a)
-            cin >> x;
-  
-        ll A = 0, B = 0, C = 0;
-        for(ll x : a)
-        {
-            A += 4;
-            B += 4 * x;
-            C += x * x;
-        }
-  
-        C -= c;
-  
-        double dA = A, dB = B, dC = C;
-  
-        double Z = dB / dA / 2;
-        double D = (Z / 2 * dB - dC) / dA;
-        double res = (-Z + sqrt(D));
-        cout << (ll)round(res) << endl;
-  
+      ll mid = (hi - lo + 1)/2 + lo;
+      if (fits(mid))
+        lo = mid;
+      else
+        hi = mid - 1;
     }
-  
-  
-    return 0;
+    cout << lo << endl;
+  }
 }
 ```
+
+We are searching for the **largest** frame width for which we still have
+enough cardboard. This makes our binary search implementation slightly
+different. In this case, we implement `upper_bound`, as opposed to
+`lower_bound`.
+
+![](/assets/posts/2024-10-12-intro-week-3-solutions/binary-search.png)
+
+It is useful to think about what will happen when our interval
+shrinks to size 2, this is where we can accurately set the +1/-1's
+in our equations.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+// PTVF Numerical Recipes 5.6.4, 5.6.5:
+// Solve ax^2 + bx + c = 0.
+
+// numerical stability
+// substracting two near equal numbers
+// see loss of significance / catastrophic cancellation
+
+const double eps = 1e-14;
+vector<double> quadsolve(double a, double b, double c)
+{
+  if(abs(a) < eps) // linear
+  {
+    if(abs(b) < eps) return {}; // c = 0
+    return {-c/b}; // bx + c = 0
+  }
+
+  double D = b*b - 4*a*c; // discriminant
+  if (D < -eps) return {}; // no real roots
+  if (abs(D) < eps) return {-0.5*b/a}; // double root
+
+  // numerically stable: no catastrophic cancellation
+  double sgnb = (b >= 0.0) ? 1.0 : -1.0;
+  double q = -0.5 * (b + sgnb * sqrt(D));
+  return {q/a, c/q};
+}
+
+int main()
+{
+  int t; cin>>t; while(t--)
+  {
+    ll n, c; cin >> n >> c;
+    vector<ll> p(n); for(ll &px : p) cin >> px;
+  
+    ll A=4*n, B=0, C=-c;
+    for(auto& px : p) { B += 4*px; C += px*px; }
+
+    auto result = quadsolve(A,B,C);
+    auto ans = *max_element(result.begin(), result.end());
+    cout << (ll)round(ans) << endl;
+  }
+  return 0;
+}
+```
+
 
 ## Challenge: Doremy's IQ
 
