@@ -59,7 +59,12 @@ public:
 ```
 
 Or in this case, since the potions array is already 'materialized' in the memory, you can
-use `std::lower_bound` too:
+use `std::lower_bound` too.
+
+In c++, when we have integers `int x,y;`, if we write `x/y`, that will be an integer division
+and return the floor, $\lfloor \frac{x}{y} \rfloor$. A neat trick to get the ceil, $\lceil \frac{x}{y} \rceil$
+instead, is to write `(x+y-1)/y`. This works, since `(x+y)/y` would always increase the result by `+1`, so
+`(x+y-1)/y` increases by `+1` only when the remainder of `x mod y` is not `0`.
 
 ```cpp
 using ll = long long;
