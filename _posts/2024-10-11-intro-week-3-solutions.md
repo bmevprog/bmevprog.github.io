@@ -90,92 +90,52 @@ public:
 
 ## HW2 : Koko eating bananas
 
-[LC 875](https://leetcode.com/problems/koko-eating-bananas/)
+[LC 875](https://leetcode.com/problems/koko-eating-bananas)
 
-- If someone told you the answer, how would you check it? Can you check if Koko would finish before the guard comes back or not?
-- Yes, you can implement a checker function, with the pile sizes and the speed and it will just simulate what Koko would do and return the number of hours it took.
-- Is there a speed at which we know we will finish in time for sure?
-- Yes, since Koko can eat at most the current pile each hour, the biggest speed can be achieved if Koko eats a pile each hour. This can be done if we set the speed to the maximum sized pile.
-- And of course, the smallest possible speed is 1 banana / hour.
-- Well if we know the interval for the possible answers, we can perform linear search on it, calling the checker function for each current speed and return when we find the valid one.
-- Unfortunately, this is too slow.
-- However, there is a property to the possible answers: if it is possible for Koko to finish at a specific speed in time, then any larger speed is also possible.
-- If we imagine the interval from 1 to maxPile as an "array" and put ❌ to any speed that is too slow and a ✅ to any fast enough speed, it will look something like this: ❌ ❌ ❌ .. ❌ ✅ ✅ ✅ ...✅ . At the lower end we will have speeds too slow and one of them finally will be fast enough ... then all of them will be fast enough. 
-- We can search using binary search on this space of possible answers. Imagine this array as 0's followed by 1's and we want the smallest index where there is a 1. 
-- And so we implement a binary search using the checker function to find the smallest good solution. :)
+This is a typical 'binary search for the smallest possible solution' type of task. To see this, you have to answer two questions:
+
+- Can you validate a solution? - If someone gave you a speed, could you check if Koko would finish in time with that speed?
+- Is the solution space ordered? - If a specific speed is correct, would any higher speed work also?
+
+The answer is yes to both questions, so let's do a binary search!
+
+We need a starting interval of possible answers. The lowest possible correct answer would be a speed of `1 banana / hour`,
+so we set this as lo. The highest possible speed we may need is for Koko to 'devour' each pile in `1 hour` (she cannot
+go faster than that), so that would mean she needs to be able to eat the largest pile in `1 hour`, so we set `hi`
+to this amonut of `bananas / hour`.
+
+Then, we have a checker function `can_finish`, which tells us if a specific speed is enough for Koko to finish in time.
+
+The rest is binary search, as seen before. :)
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
+using ll = long long;
 
-class Solution {
+class Solution
+{
 public:
-     long long checker(vector<int>& piles, int speed) {
-       long long hours = 0;
-       for(int i=0; i<piles.size(); ++i) { // At most 10^4 steps.
-         hours += (piles[i] / speed) + !!(piles[i] % speed);
-       }
-       return hours;
-     }
+  bool can_finish(const vector<int>& piles, int hours, const int speed)
+  {
+    for(auto& pile : piles) hours -= (pile + speed - 1) / speed;
+    return 0 <= hours;
+  }
 
-     // The main function for the solver.
-     // Input: The piles and the h (guard's return hour).
-     // Output: Smallest possible speed to finish the bananas.
-     int minEatingSpeed(vector<int>& piles, int h) {
-        // The min possible speed to be the answer is 1.
-        int minSpeed = 1;
-        // The max possible speed to be the answer is the maximum number of bananas in a pile, so Koko would eat one pile each hour.
-        int maxSpeed = *max_element(piles.begin(), piles.end());
-        
-        // Binary search on the interval of possible answers.
-        // We can do this because if a speed is good enough than any bigger speed is also good.
-        // -> The space of possible answers is ordered!
+  int minEatingSpeed(vector<int>& piles, int h)
+  {
+    int lo = 1;
+    int hi = *max_element(piles.begin(), piles.end());
 
-        // Loop invariants:
-        // A way to prove correctness of binary search.
-        // They are true before entering the loop.
-        // Each loop execution keeps them true if they were true at start.
-        
-        // Loop invariant. The smallest good answer is in this interval & the right pointer is pointing to a good answer.
-        int left = minSpeed;
-        int right = maxSpeed;
-
-        while(left < right) { // While the interval has more than one element left.
-          int mid = (left + right) / 2; // We point to the middle.
-          int hours = checker(piles, mid); // Check it.
-          if (hours <= h) { // -> If that is a good answer &
-            // we are looking for the smallest good answer in the ordered space, we can exclude the upper half, they are all bigger good answers!
-            right = mid; // So just set right end to mid.
-            // This retains the loop invariant: smallest answer is still in the interval and right is still a good answer.
-          } else { // -> If that is a bad answer &
-            // we are looking for the smallest good answer in the ordered space, we can exclude the lower half, they are all bad answers!
-            left = mid + 1;  // So just set left end to mid+1.
-            // We just checked that mid is a bad answer, so we can exclude that as well.
-            // This retains the loop invariant: smallest answer is still in the interval and right is still a good answer, if it was previously.
-          }
-        }
-        // So at the end of execution, the loop invariants have been kept true!
-        // And the size of my interval is 1!
-        // And the loop invariant says that the smallest possible good answer is in the interval!
-        // So the single element of the interval is the smallest possible good answer!
-        return left; // So just return it (return right; would work too).
-     }
+    while(lo < hi)
+    {
+      int mid = (hi-lo)/2 + lo;
+      if (can_finish(piles, h, mid))
+        hi = mid;
+      else
+        lo = mid + 1; 
+    }
+    return lo;
+  }
 };
-
-int main() {
-  // Reading in the input. Not needed for LeetCode but needed for the online IDE we used.
-  int n, h;
-  cin>>n>>h;
-  vector<int> piles(n);
-  for(int i=0; i<n; ++i) {
-    cin>>piles[i];
-   }
-
-  // Running the solution on the input.
-  Solution s;
-  cout << s.minEatingSpeed(piles, h) << endl;
-  return 0;
-}
 ```
 
 ## HW3 : Cardboard for Pictures
