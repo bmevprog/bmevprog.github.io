@@ -34,11 +34,3 @@
   url: https://www.linkedin.com/company/bmevprog
   icon: "fa-brands fa-linkedin"
   color: "#0077b5"
-
-- type: rss
-  icon: "fa-solid fa-rss"
-  noblank: true
-
-- type: email
-  icon: "fa-solid fa-envelope"
-  noblank: true # open link in current tab
