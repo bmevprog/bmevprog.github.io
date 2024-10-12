@@ -149,6 +149,22 @@ search on integers?
 
 The correct answer is the latter, so let's look at binary search first.
 
+### Binary search
+
+To implement the checking function `bool fits(ll w)`, we must pay attention
+to overflows. Before executing any operation, we check if the operation
+would result in an overflow, *without actually executing it*!
+
+For this, we store the maximum value of `long long`, in `maxll` and the
+maximum value we can square and still fit, in `maxllsql`.
+
+To check if `side * side` would result in an overflow, we check
+`if (maxllsq < side)`. To check if `total + add` would result in an overflow,
+we check `if (maxll - add < total)`.
+
+A possible upper bound on the valid `w`'s is $\sqrt{\frac{c}{n}}$, which would
+happen when all $n$ pictures were size $0$.
+
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
@@ -180,7 +196,7 @@ int main()
     p.assign(n, {}); for(auto& px : p) cin>>px;
 
     ll lo = 1;
-    ll hi = c;
+    ll hi = sqrt(c/n);
     while (lo < hi)
     {
       ll mid = (hi - lo + 1)/2 + lo;
@@ -194,9 +210,9 @@ int main()
 }
 ```
 
-We are searching for the **largest** frame width for which we still have
+Since are searching for the **largest** frame width for which we still have
 enough cardboard. This makes our binary search implementation slightly
-different. In this case, we implement `upper_bound`, as opposed to
+different here. In this case, we implement `upper_bound`, as opposed to
 `lower_bound`.
 
 ![](/assets/posts/2024-10-12-intro-week-3-solutions/binary-search.png)
