@@ -305,16 +305,44 @@ equations 5.6.4, 5.6.5 in the 2nd edition.
 
 [CF 1707A](https://codeforces.com/contest/1707/problem/A)
 
-- We need an $O(n)$ or $O(n*log(n))$ solution, $O(n^2)$ would be out of time.
-- Observation: If you need to take a contest that would lower your IQ, it is always better to choose a later one, so you have higher IQ for the contests between those.
+For this exercise, we first have to make one important observation:
 
-Solution via binary search:
+If we want to take a contest that would lower our IQ, it is always better to
+choose a later one, so we have a higher IQ for the contests in the days
+in-between the two options.
 
-- A good strategy would be: first start taking contests that don't lower your IQ, then at a certain point just take all of the contests. The question is which position should you change your strategy? 
-- If you have a specific position, you can test if you will end up with negative IQ at the end, to determine if that position is viable or not. This can be done in $O(n)$, just doing a for loop and executing the strategy, keeping track of your IQ.
-- If a position is viable, then every position to the right of it is also viable. 
-- To maximize the contests you took, you want the leftmost viable position. 
-- You can do a binary search to find the leftmost viable position! That will be $log(n)$ times the check, which is $O(n)$, so $O(nlog(n))$!
+More formally, given any solution to this problem, we can create another 
+solution with the *same amount* of contests taken by copying all contests
+that did not lower our IQ, then picking the latest possible contests
+from the remaining ones to match the total number of contests needed.
+
+Since any IQ-lowering contest would move to a later date, our daily
+current IQ could only increase, which means we can test the same contests
+in-between without losing IQ.
+
+We can recall, that this is a 'greedy-stays-ahead' type of proof, similar to
+the [Chat room](/posts/2024-09-20-intro-week-1-solutions/#hw2-chat-room)
+problem from Week 1.
+
+This means that a good strategy for us is to first start taking contests
+that don't lower our IQ, then at a certain day switch to taking all
+remaining contests.
+
+The question is: At which day should we change our strategy?
+
+We want to pick the earliest day, that is still viable, so that we
+don't end up with negative IQ at the end. We can simply simulate this
+process in $O(n)$ and check our remaining IQ at the end.
+
+If a strategy-changing day is viable, then every later day is also viable. To
+maximize the contests we took, we want to find the earliest viable day. This
+allows us to binary search for its location!
+
+We will execute $O(log(n))$ steps during our binary search, each step
+being an $O(n)$ simulation, for a total of $O(nlog(n))$, which fits
+into out time limits!
+
+A possible implementation:
 
 ```cpp
 #include <bits/stdc++.h>
