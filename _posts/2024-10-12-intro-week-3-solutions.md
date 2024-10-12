@@ -277,7 +277,9 @@ int main()
 }
 ```
 
-The `vector<double> quadsolve(double a, double b, double c)` function above finds the roots of the quadratic formula $ax^2 + bx + c = 0$. Mathematically, the roots are given by
+The `vector<double> quadsolve(double a, double b, double c)` function
+above finds the roots of the quadratic formula $ax^2 + bx + c = 0$.
+Mathematically, the roots are given by
 
 $$x_{1,2} = \frac{-b \pm \sqrt{D}}{2a}$$
 
