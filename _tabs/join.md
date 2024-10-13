@@ -10,11 +10,33 @@ My name is Viktória Nemkin, I'm a PhD student at BME VIK SZIT, you can email
 me at [nemkin@cs.bme.hu](mailto:nemkin@cs.bme.hu) with any questions you have!
 
 We are a competitive programming student club for BME students, mainly I'm
-the person organizing our activities. Anyone is welcome to join us on our
-Discord at [https://vprog.hu/discord](https://vprog.hu/discord) (other
-universities too)!
+the person organizing our activities.
 
 I you're interested in participating, there are multiple ways you can do that:
+
+## Join us on Discord
+
+Anyone is welcome to join us on the
+<a
+  href="https://vprog.hu/discord"
+  aria-label="discord"
+  target="_blank"
+  rel="noopener noreferrer">
+  <i class="fa-brands fa-discord" style="color: #7289da;"></i>
+  VProg Discord
+</a>
+(other universities too)!
+
+## Follow us on social media
+
+<ul>
+  <li><a href="https://github.com/bmevprog" aria-label="github" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-github" style="color: #333;"></i>@bmevprog</a></li>
+  <li><a href="https://www.youtube.com/@bmevprog" aria-label="youtube" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-youtube" style="color: #ff0000;"></i>@bmevprog</a></li>
+  <li><a href="https://www.facebook.com/bmevprog" aria-label="facebook" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-facebook-square" style="color: #3b5998;"></i>@bmevprog</a></li>
+  <li><a href="https://www.instagram.com/bmevprog" aria-label="instagram" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-instagram" style="color: #e1306c;"></i>@bmevprog</a></li>
+  <li><a href="https://www.twitter.com/bmevprog" aria-label="twitter" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-twitter" style="color: #1da1f2;"></i>@bmevprog</a></li>
+  <li><a href="https://www.linkedin.com/company/bmevprog" aria-label="linkedin" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-linkedin" style="color: #0077b5;"></i>@bmevprog</a></li>
+</ul>
 
 ## Intro video series
 
