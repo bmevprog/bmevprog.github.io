@@ -144,5 +144,5 @@ you can find all ICPC-related news here.
 
 Hope to see you around! :)
 
-Best,
+Best,  
 Viktória
