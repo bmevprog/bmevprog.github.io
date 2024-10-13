@@ -29,6 +29,8 @@ Anyone is welcome to join us on the
 
 ## Follow us on social media
 
+We have social media accounts you can follow to see what we are up to! :)
+
 <ul>
   <li><a href="https://github.com/bmevprog" aria-label="github" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-github" style="color: #333;"></i> @bmevprog</a></li>
   <li><a href="https://www.youtube.com/@bmevprog" aria-label="youtube" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> @bmevprog</a></li>
