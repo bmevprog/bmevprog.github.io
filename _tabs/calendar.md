@@ -1,7 +1,7 @@
 ---
 title: Calendar
 icon: fa-solid fa-chalkboard-user
-order: 2
+order: 3
 ---
 
 See upcoming meetings, events and competitions here.
