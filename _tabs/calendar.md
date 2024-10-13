@@ -1,6 +1,6 @@
 ---
 title: Calendar
-icon: fa-solid fa-chalkboard-user
+icon: fa-regular fa-calendar-days
 order: 3
 ---
 
