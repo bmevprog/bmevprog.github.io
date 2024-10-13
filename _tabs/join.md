@@ -1,6 +1,6 @@
 ---
 title: Join
-icon: fa-solid fa-at
+icon: fa-solid fa-user-plus
 order: 2
 ---
 
