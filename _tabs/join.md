@@ -130,8 +130,6 @@ as a resource on more advanced data structures and algorithms. This contains
 more than you need, but our intro video series does not cover everything yet
 (we're still working on it :) ).
 
-Hope to see you around! :)
-
 ## Competing in ICPC
 
 If you get into competitive programming, the most important contest you'll
