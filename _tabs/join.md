@@ -12,7 +12,7 @@ me at [nemkin@cs.bme.hu](mailto:nemkin@cs.bme.hu) with any questions you have!
 We are a competitive programming student club for BME students, mainly I'm
 the person organizing our activities.
 
-I you're interested in participating, there are multiple ways you can do that:
+If you're interested in participating, there are multiple ways you can do that:
 
 ## Join us on Discord
 
