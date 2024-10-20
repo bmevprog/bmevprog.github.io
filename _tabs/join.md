@@ -64,11 +64,12 @@ already taken
 . If you're a determined first year student, reach out to me and
 I can help you find materials to cover any missing gaps!
 
-In the video series we give out weekly homeworks that you can submit on
-Discord and discuss any question you have with me and the others.
-You can watch and submit the homeworks from the past weeks as well,
-our goal is for this to be an ongoing series that newcomers can
-start doing whenever they would like, completely async.
+In the video series we give out homeworks for each episode, that you
+can submit on Discord and discuss any question you have with me
+and the others. You can watch and submit the homeworks from any
+episodes, completely async. Our goal is for this to be an
+ongoing series that newcomers can start doing whenever they
+would like.
 
 For more details, watch the first video here:
 
