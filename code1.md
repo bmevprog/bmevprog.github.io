@@ -1,9 +1,13 @@
 ---
-permalink: /usaco
+permalink: /code1
 redirect_to:
   - https://ide.usaco.guide/NZ01ADW5zS7ju1chatz
 redirect_from:
-  - /ide
   - /code
+  - /ide
   - /kod
+  - /usaco
+  - /ide1
+  - /kod1
+  - /usaco1
 ---
