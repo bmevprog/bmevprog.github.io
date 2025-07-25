@@ -284,32 +284,6 @@
             border: 1px solid rgba(239, 68, 68, 0.3);
             margin: 20px 0;
         }
-        
-        .summary {
-            background: rgba(25, 25, 25, 0.8);
-            color: #f1f1f1;
-            padding: 24px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(120, 120, 120, 0.2);
-        }
-        
-        .summary h3 {
-            margin-top: 0;
-            font-size: 1.3em;
-            color: #f1f1f1;
-            margin-bottom: 16px;
-        }
-        
-        .summary p {
-            margin: 8px 0;
-            color: #b5b5b5;
-        }
-        
-        .summary strong {
-            color: #888888;
-            font-weight: 600;
-        }
 
         /* Modal Styles */
         .modal {
@@ -494,7 +468,6 @@
         <div id="error" class="error" style="display: none;"></div>
         
         <div id="results" class="results" style="display: none;">
-            <div id="summary" class="summary"></div>
             <div id="statsGrid" class="stats-grid"></div>
             <div class="chart-container">
                 <canvas id="performanceChart"></canvas>
@@ -891,7 +864,6 @@
         }
         
         function displayResults(username, analysis, totalSubmissions, startDate, endDate) {
-            // Summary
             const totalProblemsAttempted = Object.values(analysis).reduce((sum, stats) => sum + stats.problemsAttempted, 0);
             const totalProblemsSolved = Object.values(analysis).reduce((sum, stats) => sum + stats.problemsSolved, 0);
             const overallSuccessRate = totalProblemsAttempted > 0 ? Math.round((totalProblemsSolved / totalProblemsAttempted) * 100) : 0;
@@ -905,16 +877,6 @@
                 const endStr = endDate ? endDate.toLocaleDateString() : 'Present';
                 dateRangeText = `${startStr} - ${endStr}`;
             }
-            
-            document.getElementById('summary').innerHTML = `
-                <h3>📊 Contest Performance for ${username}</h3>
-                <p><strong>Date Range:</strong> ${dateRangeText}</p>
-                <p><strong>Contest Type:</strong> ${contestType}</p>
-                <p><strong>Total Submissions:</strong> ${totalSubmissions}</p>
-                <p><strong>Problems Attempted:</strong> ${totalProblemsAttempted}</p>
-                <p><strong>Problems Solved:</strong> ${totalProblemsSolved}</p>
-                <p><strong>Overall Success Rate:</strong> ${overallSuccessRate}%</p>
-            `;
             
             // Stats grid
             const statsGrid = document.getElementById('statsGrid');
