@@ -17,6 +17,12 @@
             position: relative;
         }
         
+        /* Prevent body scroll when modal is open */
+        body.modal-open {
+            overflow: hidden;
+            width: 100%;
+        }
+        
         body::before {
             content: '';
             position: fixed;
@@ -513,6 +519,7 @@
         let currentChart = null;
         let allSubmissions = [];
         let currentUsername = '';
+        let savedScrollPosition = 0;
         
         // Difficulty ranges for categorization
         const difficultyRanges = [
@@ -525,6 +532,31 @@
             { min: 2100, max: 2299, label: "2100-2299", color: "#FF0000" },
             { min: 2300, max: 3500, label: "2300+", color: "#AA0000" }
         ];
+        
+        // Modal scroll management functions
+        function openModal() {
+            // Save current scroll position
+            savedScrollPosition = window.pageYOffset;
+            
+            // Prevent body scroll
+            document.body.classList.add('modal-open');
+            document.body.style.top = `-${savedScrollPosition}px`;
+            
+            // Show modal
+            document.getElementById('problemModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('problemModal');
+            modal.style.display = 'none';
+            
+            // Restore body scroll
+            document.body.classList.remove('modal-open');
+            document.body.style.top = '';
+            
+            // Restore scroll position
+            window.scrollTo(0, savedScrollPosition);
+        }
         
         // Initialize the application
         function initializeApp() {
@@ -643,7 +675,6 @@
         }
 
         function showProblemDetails(difficultyRange) {
-            const modal = document.getElementById('problemModal');
             const modalTitle = document.getElementById('modalTitle');
             const modalBody = document.getElementById('modalBody');
 
@@ -728,11 +759,7 @@
             });
 
             modalBody.innerHTML = html;
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('problemModal').style.display = 'none';
+            openModal();
         }
         
         async function analyzePerformance() {
