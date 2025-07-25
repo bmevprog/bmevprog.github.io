@@ -88,7 +88,13 @@
             flex-wrap: wrap;
             margin-bottom: 15px;
         }
-        
+
+        .date-input-pair {
+            display: flex;
+            align-items: center;
+            flex: auto;
+        }
+                
         input[type="text"], input[type="date"] {
             flex: 1;
             min-width: 200px;
@@ -447,10 +453,14 @@
                 <button id="analyzeBtn">Analyze Performance</button>
             </div>
             <div class="date-group">
-                <span class="date-label">Start:</span>
-                <input type="date" id="startDate" />
-                <span class="date-label">End:</span>
-                <input type="date" id="endDate" />
+                <div class="date-input-pair">
+                    <span class="date-label">Start:</span>
+                    <input type="date" id="startDate" />
+                </div>
+                <div class="date-input-pair">
+                    <span class="date-label">End:</span>
+                    <input type="date" id="endDate" />
+                </div>
             </div>
             <div style="margin-top: 15px;">
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
