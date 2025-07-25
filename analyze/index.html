@@ -649,38 +649,33 @@
 
             modalTitle.textContent = difficultyRange + ' Difficulty Problems';
 
-            // Get submissions for this difficulty range
+            // Step 1: Get all problem keys for this difficulty
             const rangeObj = difficultyRanges.find(r => r.label === difficultyRange);
-            const relevantSubmissions = allSubmissions.filter(sub => {
-                const problemKey = `${sub.problem.contestId}${sub.problem.index}`;
-                const difficulty = problemDifficulties[problemKey];
-                if (!difficulty) return false;
-                
-                const submissionRange = getDifficultyRange(difficulty);
-                return submissionRange.label === difficultyRange;
+            const matchingProblemKeys = new Set();
+            Object.entries(problemDifficulties).forEach(([key, rating]) => {
+                const range = getDifficultyRange(rating);
+                if (range.label === difficultyRange) {
+                    matchingProblemKeys.add(key);
+                }
             });
 
-            // Group submissions by problem
+            // Step 2: Group all submissions (even if not part of analysis) that match those problems
             const problemMap = {};
-            relevantSubmissions.forEach(sub => {
-                const problemKey = `${sub.problem.contestId}${sub.problem.index}`;
-                if (!problemMap[problemKey]) {
-                    problemMap[problemKey] = {
+            allSubmissions.forEach(sub => {
+                const key = `${sub.problem.contestId}${sub.problem.index}`;
+                if (!matchingProblemKeys.has(key)) return;
+
+                if (!problemMap[key]) {
+                    problemMap[key] = {
                         problem: sub.problem,
                         contestId: sub.problem.contestId,
                         index: sub.problem.index,
-                        difficulty: problemDifficulties[problemKey],
-                        inContestSubmissions: [],
-                        outOfContestSubmissions: []
+                        difficulty: problemDifficulties[key],
+                        submissions: []
                     };
                 }
 
-                // Categorize submissions
-                if (sub.author.participantType === 'CONTESTANT') {
-                    problemMap[problemKey].inContestSubmissions.push(sub);
-                } else {
-                    problemMap[problemKey].outOfContestSubmissions.push(sub);
-                }
+                problemMap[key].submissions.push(sub);
             });
 
             // Sort problems by contest ID and index
@@ -694,12 +689,10 @@
             // Create HTML
             let html = '';
             problems.forEach(problemData => {
-                const { problem, difficulty, inContestSubmissions, outOfContestSubmissions } = problemData;
+                const { problem, difficulty, submissions } = problemData;
                 const problemUrl = `https://codeforces.com/problemset/problem/${problem.contestId}/${problem.index}`;
-                
-                // Combine and sort all submissions chronologically
-                const allProblemSubmissions = [...inContestSubmissions, ...outOfContestSubmissions]
-                    .sort((a, b) => a.creationTimeSeconds - b.creationTimeSeconds);
+               
+                const allProblemSubmissions = submissions.sort((a, b) => a.creationTimeSeconds - b.creationTimeSeconds);
                 
                 html += `
                     <div class="problem-item">
@@ -803,8 +796,12 @@
                     return;
                 }
 
-                // Store all submissions for drill-down
-                allSubmissions = contestSubmissions;
+                // Store all matching submissions regardless of contest type for problem drill-down
+                allSubmissions = submissions.filter(sub => {
+                    if (!sub.contestId || !problemDifficulties[`${sub.problem.contestId}${sub.problem.index}`]) return false;
+                    if (!isWithinDateRange(sub.creationTimeSeconds, startDate, endDate)) return false;
+                    return true;
+                });
                 
                 // Analyze by difficulty
                 const analysis = analyzeDifficultyPerformance(contestSubmissions);
