@@ -35,16 +35,4 @@ pre {
 
 code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
 
-.post-list { display: grid; gap: 1rem; }
-
-.post-card {
-  display: block;
-  padding: 1rem 0;
-  border-bottom: 1px solid #ddd;
-  color: inherit;
-}
-
-.post-card:hover { text-decoration: none; }
-.post-card h2 { margin: 0; color: #852318; }
 .date { color: #666; }
-.summary { margin-bottom: 0; }

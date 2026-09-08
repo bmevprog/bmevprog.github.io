@@ -16,8 +16,8 @@
       class="logo"
       src="{base}/img/balloons-cartoon.png"
       loading="lazy"
-      width="200"
-      height="200"
+      width="153"
+      height="153"
       alt="VProg balloons logo"
     />
     <div class="title">
@@ -37,11 +37,7 @@
     <ul id="main-menu" class="visible">
       <li><a href="{base}/">Home</a></li>
       <li><a href="{base}/join">Join</a></li>
-      <li><a href="{base}/archives">Archives</a></li>
-      <li><a href="{base}/categories">Categories</a></li>
-      <li><a href="{base}/tags">Tags</a></li>
       <li><a href="{base}/icpc">ICPC</a></li>
-      <li><a href="{base}/contact">Contact</a></li>
     </ul>
   </nav>
 </header>
