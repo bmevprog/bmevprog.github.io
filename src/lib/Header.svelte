@@ -38,6 +38,7 @@
       <li><a href="{base}/">Home</a></li>
       <li><a href="{base}/join">Join</a></li>
       <li><a href="{base}/icpc">ICPC</a></li>
+      <li><a href="https://www.youtube.com/@bmevprog">YouTube</a></li>
     </ul>
   </nav>
 </header>

@@ -62,7 +62,6 @@
     max-width: none;
     margin: 0;
     padding: 1rem;
-    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
   }
 
   .list-header,
@@ -109,7 +108,6 @@
 
   .summary {
     color: #656565;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 0.86rem;
   }
 
