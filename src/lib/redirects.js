@@ -4,9 +4,6 @@ function add(destination, ...paths) {
   for (const path of paths) redirects[path] = destination;
 }
 
-const calendar = 'https://calendar.google.com/calendar/u/0?cid=dmVyc2VueXByb2dyYW1vemFzQGdtYWlsLmNvbQ';
-add(calendar, 'calendar', 'cal');
-
 const editors = [
   'https://ide.usaco.guide/NZ01ADW5zS7ju1chatz',
   'https://ide.usaco.guide/OK112khL-4NwDbn_Y1y',
