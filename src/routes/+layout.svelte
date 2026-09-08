@@ -1,5 +1,7 @@
 <script>
   import { afterNavigate } from '$app/navigation';
+  import { base } from '$app/paths';
+  import Footer from '$lib/Footer.svelte';
   import Header from '$lib/Header.svelte';
   import '../global.scss';
 
@@ -24,7 +26,9 @@
 <svelte:head>
   <title>VProg</title>
   <meta name="description" content="Competitive programming student club at BME" />
+  <link rel="icon" href="{base}/assets/img/favicons/favicon.ico" />
 </svelte:head>
 
 <Header />
 <slot />
+<Footer />

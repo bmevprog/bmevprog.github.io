@@ -37,6 +37,10 @@
     <ul id="main-menu" class="visible">
       <li><a href="{base}/">Home</a></li>
       <li><a href="{base}/join">Join</a></li>
+      <li><a href="{base}/calendar">Calendar</a></li>
+      <li><a href="{base}/archives">Archives</a></li>
+      <li><a href="{base}/categories">Categories</a></li>
+      <li><a href="{base}/tags">Tags</a></li>
       <li><a href="{base}/icpc">ICPC</a></li>
       <li><a href="{base}/contact">Contact</a></li>
     </ul>

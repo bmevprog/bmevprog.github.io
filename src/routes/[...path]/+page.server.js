@@ -1,11 +1,12 @@
 import { error, redirect } from '@sveltejs/kit';
-import { analyze, page, staticEntries } from '$lib/content.js';
-export function entries() { return [...staticEntries().map((path) => ({ path })), { path: 'analyze' }]; }
+import { redirects } from '$lib/redirects.js';
+
+export function entries() {
+  return Object.keys(redirects).map((path) => ({ path }));
+}
+
 export function load({ params }) {
-  const route = params.path.replace(/^\/+|\/+$/g, '');
-  if (route === 'analyze') return { kind: 'html', html: analyze() };
-  const item = page(route);
-  if (!item) error(404, 'Page not found');
-  if (item.redirect) redirect(308, item.redirect);
-  return { kind: 'markdown', ...item };
+  const destination = redirects[params.path.replace(/^\/+|\/+$/g, '')];
+  if (!destination) error(404, 'Page not found');
+  redirect(308, destination);
 }

@@ -1,0 +1,99 @@
+<p>You are a professional robber planning to rob houses along a street.
+Each house has a certain amount of money stashed, the only constraint
+stopping you from robbing each of them is that adjacent houses have
+security systems connected and it will automatically contact the police
+if two adjacent houses were broken into on the same night.</p>
+<p>Given an integer array nums representing the amount of money of each
+house, return the maximum amount of money you can rob tonight without
+alerting the police.</p>
+<p>Usually the first approach I see people come up with for this
+exercise goes something along the lines of: “let’s iterate the house
+array</p>
+<p>You might try solving it with a heuristic, but there will be
+counterexamples to all of them. Heuristics are solutions where you
+always make a decision based on local information as you iterate your
+nums array.</p>
+<p>The problem is that when we make a decision whether to rob a house or
+not, it can never be undone later, if we find something better along the
+way. If we include a new house into the robbed ones, suddenly its
+neighbour cannot be included, so maybe the previous neighbour should be,
+and so on, the change might bubble up all the way to the beginning… how
+do we deal with these in an organized manner?</p>
+<p>Instead of sticking to a choice, check what happens in both cases! So
+for instance, we can either include the last house or not.</p>
+<p>If we include the n’th house, then obviously the n-1’th cannot be
+included… what we are left with is solving the same problem… for houses
+1 .. n-2! And if we don’t include the n’th house … well then we must
+solve the problem for houses 1 .. n-1!</p>
+<p>So if we have a solver for between 1 .. n , maybe call it solve(n),
+this will be a recursive function, like so:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>nums <span class="op">=</span> [<span class="dv">0</span>] <span class="op">+</span> nums <span class="co"># Let&#39;s index houses from 1 to n, for better readability.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solver(i): <span class="co"># Solve or 1..i.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Base cases</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> i<span class="op">==</span><span class="dv">0</span>: <span class="co"># If we have no houses, we can rob 0 money.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> i<span class="op">==</span><span class="dv">1</span>: <span class="co"># We can only rob the first house, so let&#39;s do it!</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> nums[<span class="dv">1</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">max</span>(solver(i<span class="op">-</span><span class="dv">2</span>) <span class="op">+</span> nums[i], solver(i<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(solve(n))</span></code></pre></div>
+<p>But this is not too efficient. We call solver with n, then n-1 and
+n-2; the n-1 call will call for n-2 and n-3; the n-2 call will call for
+n-3 and n-4 … lots of redundancy there. If we know a solution to an n,
+we should just remember it.</p>
+<p>This is called memoization, the typo is intentional. Python can do it
+built-in, with the macro <code>@cache</code>, but let’s do it by hand
+now.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nums <span class="op">=</span> [<span class="dv">0</span>] <span class="op">+</span> nums <span class="co"># Let&#39;s index houses from 1 to n, for better readability.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dp <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>]<span class="op">*</span><span class="bu">len</span>(nums)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solver(i): <span class="co"># Solve or 1..i.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> dp[i] <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span>: <span class="co"># If we already solved this case, return the solution.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dp[i]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Base cases</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> i<span class="op">==</span><span class="dv">0</span>: <span class="co"># If we have no houses, we can rob 0 money.</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    dp[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">elif</span> i<span class="op">==</span><span class="dv">1</span>: <span class="co"># We can only rob the first house, so let&#39;s do it!</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    dp[<span class="dv">1</span>] <span class="op">=</span> nums[<span class="dv">1</span>]</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Generic case</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    dp[i] <span class="op">=</span> <span class="bu">max</span>(solver(i<span class="op">-</span><span class="dv">2</span>) <span class="op">+</span> nums[i], solver(i<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dp[i]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(solve(n))</span></code></pre></div>
+<p>And at this point you can see that we’re using the recursion
+completely unnecessarily, we could just fill out that dp array from left
+to right :)</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nums <span class="op">=</span> [<span class="dv">0</span>] <span class="op">+</span> nums <span class="co"># Let&#39;s index houses from 1 to n, for better readability.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dp <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>]<span class="op">*</span><span class="bu">len</span>(nums)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>dp[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>dp[<span class="dv">1</span>] <span class="op">=</span> nums[<span class="dv">1</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>,n<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  dp[i] <span class="op">=</span> <span class="bu">max</span>(dp[i<span class="op">-</span><span class="dv">2</span>] <span class="op">+</span> nums[i], dp[i<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dp[n])</span></code></pre></div>
+<p>And this is what we call dynamic programming!</p>
+<p>We relied on the principle of optimality, which means that an optimal
+solution to the problem for 1..n can be constructed from other
+<strong>optimal solutions</strong> to subproblems, 1..n-2 and 1..n-1 !
+This is not true for all problems, consider finding a Hamiltonian path …
+you can’t just solve the problem for a subgraph, then try to build from
+there… maybe your edges have to be completely rearranged when a new
+vertex is added.</p>
+<p>This is such a powerful tool, because using the principle of
+optimality you can turn a naive 2^n solution (checking all subsets of
+houses and finding the maximum value that satisfies the constraint) into
+a linear one, since the value of the optimal subet from 1..n comes from
+the values of other <strong>optimal subsets</strong> from 1..n-1 and
+1..n-2 .</p>
+<p>F.Y.I. Hamiltonian path can be solved with something called bitset
+dynamic programming, but that still has an exponential runtime and is a
+bit more trickier than this type of DP.</p>
+

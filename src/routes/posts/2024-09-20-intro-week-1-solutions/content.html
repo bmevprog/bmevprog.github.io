@@ -1,0 +1,449 @@
+<h2 id="hw1-present-from-lena">HW1: Present from Lena</h2>
+<p><a href="https://codeforces.com/contest/118/problem/B">CF
+118B</a></p>
+<p>There are many ways you can come up with code for this.</p>
+<p>In this example, we calculate the following way: - Iterate each cell
+position in the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">(2n+1) \times (2n+1)</annotation></semantics></math>
+grid. - For cell
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(i,j)</annotation></semantics></math>,
+calculate its <a
+href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan-distance</a>
+from the center cell
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>,</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(n,n)</annotation></semantics></math>,
+via
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">|</mo><mi>n</mi><mo>−</mo><mi>i</mi><mo stretchy="false" form="postfix">|</mo><mi>+</mi><mo stretchy="false" form="postfix">|</mo><mi>n</mi><mo>−</mo><mi>j</mi><mo stretchy="false" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">\vert n-i \vert + \vert n-j \vert</annotation></semantics></math>.
+- This distance determines the number placed in the cell,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>n</mi><mi>−</mi><mo stretchy="false" form="postfix">|</mo><mi>n</mi><mo>−</mo><mi>i</mi><mo stretchy="false" form="postfix">|</mo><mi>−</mi><mo stretchy="false" form="postfix">|</mo><mi>n</mi><mo>−</mo><mi>j</mi><mo stretchy="false" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">x = n - \vert n-i \vert - \vert n-j \vert</annotation></semantics></math>.
+- When
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+would be negative, we print a space instead. - Don’t forget to print all
+whitespaces in-between.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> n<span class="op">;</span> cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> size <span class="op">=</span> n <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>j<span class="op">)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> x <span class="op">=</span> n <span class="op">-</span> abs<span class="op">(</span>n <span class="op">-</span> i<span class="op">)</span> <span class="op">-</span>  abs<span class="op">(</span>n <span class="op">-</span> j<span class="op">);</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span><span class="op">(</span>x <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="op">{</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        cout <span class="op">&lt;&lt;</span> x<span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>j <span class="op">&lt;</span> n <span class="op">||</span> x <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> cout <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span> <span class="cf">if</span><span class="op">(</span>j <span class="op">&lt;</span> n<span class="op">)</span> cout <span class="op">&lt;&lt;</span> <span class="st">&quot;  &quot;</span><span class="op">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="hw2-chat-room">HW2: Chat room</h2>
+<p><a href="https://codeforces.com/contest/58/problem/A">CF58A</a></p>
+<p>We can do a simple greedy algorithm: Iterate Vasya’s message and when
+we find the next matching character from the word “hello”, we mark it as
+done.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  string s<span class="op">;</span> cin <span class="op">&gt;&gt;</span> s<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  string hello <span class="op">=</span> <span class="st">&quot;hello&quot;</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span><span class="op">(</span><span class="dt">char</span> c <span class="op">:</span> s<span class="op">)</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>i <span class="op">&lt;</span> hello<span class="op">.</span>size<span class="op">()</span> <span class="op">&amp;&amp;</span> c <span class="op">==</span> hello<span class="op">[</span>i<span class="op">])</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="op">++</span>i<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  cout <span class="op">&lt;&lt;</span> <span class="op">(</span>i <span class="op">==</span> hello<span class="op">.</span>size<span class="op">()</span> <span class="op">?</span> <span class="st">&quot;YES&quot;</span> <span class="op">:</span> <span class="st">&quot;NO&quot;</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Although we can see intuitively that this code is correct, for more
+complex greedy solutions, it might be good to know how to reason about
+their correctness with our teammates.</p>
+<p>In this case we can formulate a so-called “Greedy Stays Ahead”
+argument.</p>
+<p>If Vasya’s message contains the word “hello” as a substring, let’s
+say at indices
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><msub><mi>f</mi><mn>2</mn></msub><mo>,</mo><msub><mi>f</mi><mn>3</mn></msub><mo>,</mo><msub><mi>f</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">f_1, f_2, f_3, f_4</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>5</mn></msub><annotation encoding="application/x-tex">f_5</annotation></semantics></math>,
+then the greedy algorithm will find a character ‘h’ at a position
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>1</mn></msub><mo>≤</mo><msub><mi>f</mi><mn>1</mn></msub><mo>&lt;</mo><msub><mi>f</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">g_1 \leq f_1 &lt; f_2</annotation></semantics></math>.</p>
+<p>Then, when looking for the character ‘e’, it will start checking from
+position
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>1</mn></msub><mo>+</mo><mn>1</mn><mo>≤</mo><msub><mi>f</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">g_1+1 \leq f_2</annotation></semantics></math>,
+therefore it will find one at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>2</mn></msub><mo>≤</mo><msub><mi>f</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">g_2 \leq f_2</annotation></semantics></math>.</p>
+<p>And so on…</p>
+<p>If Vasya’s message does not contain the word “hello”, this algorithm
+will return “NO” as well.</p>
+<p>You can read more about corretness proofs for greedy algorithms <a
+href="https://web.stanford.edu/class/archive/cs/cs161/cs161.1138/handouts/120%20Guide%20to%20Greedy%20Algorithms.pdf">here</a>.</p>
+<h2 id="hw3-we-were-both-children">HW3: We Were Both Children</h2>
+<p><a href="https://codeforces.com/contest/1850/problem/F">CF
+1850F</a></p>
+<p>The naive solution to this algorithm would look something like
+this:</p>
+<p>We simply calculate for each coordinate how many frogs will land
+there eventually.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> t<span class="op">;</span> cin <span class="op">&gt;&gt;</span> t<span class="op">;</span> <span class="cf">while</span><span class="op">(</span>t<span class="op">--)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">;</span> cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> s<span class="op">(</span>n<span class="op">+</span><span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i<span class="op">=</span><span class="dv">0</span><span class="op">;</span> i<span class="op">&lt;</span>n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> x<span class="op">;</span> cin <span class="op">&gt;&gt;</span> x<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j<span class="op">=</span>x<span class="op">;</span> j<span class="op">&lt;=</span>n<span class="op">;</span> j<span class="op">+=</span>x<span class="op">)</span> <span class="op">++</span>s<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>max_element<span class="op">(</span>s<span class="op">.</span>begin<span class="op">(),</span> s<span class="op">.</span>end<span class="op">())</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>However, this results in a time limit exceeded. We have
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+frogs for the outer for-loop and each frog can hop at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+times, in the inner for-loop, so our algorithm is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math>.</p>
+<p>Roughly speaking, since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≤</mo><mn>2</mn><mo>⋅</mo><msup><mn>10</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">n \leq 2 \cdot 10^5</annotation></semantics></math>,
+an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math>
+algorithm would perform around
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>n</mi><mi>s</mi><mi>t</mi><mo>⋅</mo><mn>4</mn><mo>⋅</mo><msup><mn>10</mn><mn>10</mn></msup></mrow><annotation encoding="application/x-tex">const \cdot 4 \cdot 10^{10}</annotation></semantics></math>
+steps, however
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>7</mn></msup><annotation encoding="application/x-tex">10^7</annotation></semantics></math>
+steps is roughly around
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+second on these platforms, so we are way out of the 3 seconds/test case
+time limit stated in the exercise.</p>
+<p>Intuitively, the biggest problems are caused by having too many frogs
+with relatively short hop-lengths, since this code spends the most time
+processing those, hop-by-hop. So, if we process them <em>together</em>,
+this will cut back tremendously on the runtime.</p>
+<p>Therefore, we will count the frogs who have the same hop-length and
+process them together, like this:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> t<span class="op">;</span> cin <span class="op">&gt;&gt;</span> t<span class="op">;</span> <span class="cf">while</span><span class="op">(</span>t<span class="op">--)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">;</span> cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    map<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> a<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> x<span class="op">;</span> cin <span class="op">&gt;&gt;</span> x<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">++</span>a<span class="op">[</span>x<span class="op">];</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> s<span class="op">(</span>n <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span> x <span class="op">:</span> a<span class="op">)</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> x<span class="op">.</span>first<span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">+=</span> x<span class="op">.</span>first<span class="op">)</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        s<span class="op">[</span>i<span class="op">]</span> <span class="op">+=</span> x<span class="op">.</span>second<span class="op">;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>max_element<span class="op">(</span>s<span class="op">.</span>begin<span class="op">(),</span> s<span class="op">.</span>end<span class="op">())</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Mathematically, we can argue, that now the internal for-loop,
+processing the frogs with hop length
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>,
+will execute
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">⌊</mo><mfrac><mi>n</mi><mi>x</mi></mfrac><mo stretchy="false" form="postfix">⌋</mo></mrow><annotation encoding="application/x-tex">\lfloor \frac{n}{x} \rfloor</annotation></semantics></math>
+number of times, which accounts for a total of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>x</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">⌊</mo><mfrac><mi>n</mi><mi>x</mi></mfrac><mo stretchy="false" form="postfix">⌋</mo></mrow><annotation encoding="application/x-tex">\sum\limits_{x=1}^{n} \lfloor \frac{n}{x} \rfloor</annotation></semantics></math>
+steps.</p>
+<p>It is very useful to remember, that the sum of a harmonic sequence,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>x</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mfrac><mn>1</mn><mi>x</mi></mfrac></mrow><annotation encoding="application/x-tex">\sum\limits_{x=1}^{n}\frac{1}{x}</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(log n)</annotation></semantics></math>.
+This is because we can upper-estimate each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mn>1</mn><mi>x</mi></mfrac><annotation encoding="application/x-tex">\frac{1}{x}</annotation></semantics></math>
+with the closest fraction that has a power of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>,
+in the following way:</p>
+<p><img
+src="/assets/posts/2024-09-20-intro-week-1-solutions/harmonic-sequence.jpg" /></p>
+<p>With similar logic
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>x</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">⌊</mo><mfrac><mi>n</mi><mi>x</mi></mfrac><mo stretchy="false" form="postfix">⌋</mo></mrow><annotation encoding="application/x-tex">\sum\limits_{x=1}^{n} \lfloor \frac{n}{x} \rfloor</annotation></semantics></math>
+is then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>log</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math>.</p>
+<p>Using the same rough estimation as before, when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≤</mo><mn>2</mn><mo>⋅</mo><msup><mn>10</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">n \leq 2 \cdot 10^5</annotation></semantics></math>,
+then this algorithm runs in roughly
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>n</mi><mi>s</mi><mi>t</mi><mo>⋅</mo><msup><mn>10</mn><mn>5</mn></msup><mo>⋅</mo><mn>5</mn><mo>⋅</mo><msub><mo>log</mo><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>10</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">const \cdot 10^5 \cdot 5 \cdot \log_2(10)</annotation></semantics></math>
+steps, which fits into the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>
+seconds time limit of the task.</p>
+<h2 id="poor-pigs">Poor Pigs</h2>
+<p><a href="https://leetcode.com/problems/poor-pigs/">LC 458</a></p>
+<p>We can quickly see that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mfrac><mtext mathvariant="normal">minutesToTest</mtext><mtext mathvariant="normal">minutesToDie</mtext></mfrac><mo stretchy="false" form="postfix">⌋</mo></mrow><annotation encoding="application/x-tex">r = \lfloor\frac{\text{minutesToTest}}{\text{minutesToDie}}\rfloor</annotation></semantics></math>
+is the number of testing rounds we have available to us and forget about
+the minute parameters altogether.</p>
+<p>When you have a task that is hard to solve, one trick you can do is
+to solve a simpler version of it first, then try to generalize that
+solution. In this case, let’s first think about what the solution is for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">r = 1</annotation></semantics></math>.</p>
+<p>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+buckets, how many pigs should we request, so that we can tell exactly
+which bucket is poisonous?</p>
+<ul>
+<li>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n=1</annotation></semantics></math>,
+we don’t need any pigs.</li>
+<li>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n=2</annotation></semantics></math>,
+one pig suffices, since we give one bucket to the pig, if it dies, that
+was the poison, otherwise it was in the other bucket.</li>
+<li>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n=3</annotation></semantics></math>,
+one pig is not enough, but we can do with two, one bucket to each and
+not giving the third bucket to any of them.</li>
+<li>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">n=4</annotation></semantics></math>,
+two pigs are enough, since we can give, let’s say the first bucket to
+both pigs, the second bucket to the first pig, the third bucket to the
+second pig and the fourth bucket to neither. In all cases, the pattern
+of dead pigs will tell us which was the correct bucket.</li>
+</ul>
+<p>You can think about the pigs as 0/1 bit strings: 0 represents a pig
+that didn’t die and 1 represents a pig that died. Then the outcome is a
+number in binary format, where each pig corresponds to a certain bit
+position. For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+pigs, let’s number these pigs/bit positions from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k-1</annotation></semantics></math>.
+We will also number our buckets, from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math>
+and represent them as binary numbers: where they contain a one, we feed
+them to the corresponding pig. Then, we can read the number of the
+poisonous bucket from the resulting deaths.</p>
+<p>For example, for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">n=8</annotation></semantics></math>:
+- Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><msub><mn>000</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">0 = 000_{2}</annotation></semantics></math>:
+Don’t give this bucket to any pigs. If no pigs die, this has the poison.
+- Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>=</mo><msub><mn>001</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">1 = 001_{2}</annotation></semantics></math>:
+Give this bucket to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>.
+If only pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+dies, this has the poison. - Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>=</mo><msub><mn>010</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">2 = 010_{2}</annotation></semantics></math>:
+Give this bucket to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>.
+If only pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+dies, this has the poison. - Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>=</mo><msub><mn>011</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">3 = 011_{2}</annotation></semantics></math>:
+Give this bucket to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>.
+If exactly pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+die, this has the poison. - Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msub><mn>100</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">4 = 100_{2}</annotation></semantics></math>:
+Give this bucket to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>.
+If only pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+dies, this has the poison. - Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>=</mo><msub><mn>101</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">5 = 101_{2}</annotation></semantics></math>:
+Give this bucket to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>.
+If exactly pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+die, this has the poison. - Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>=</mo><msub><mn>110</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">6 = 110_{2}</annotation></semantics></math>:
+Give this bucket to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>.
+If exactly pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+die, this has the poison. - Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>=</mo><msub><mn>111</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">7 = 111_{2}</annotation></semantics></math>:
+Give this bucket to all pigs. If all pigs die, this has the poison.</p>
+<p>We can see now, that for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">r = 1</annotation></semantics></math>,
+we can succeed with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mo stretchy="false" form="prefix">⌈</mo><msub><mo>log</mo><mn>2</mn></msub><mi>n</mi><mo stretchy="false" form="postfix">⌉</mo></mrow><annotation encoding="application/x-tex">k = \lceil \log_2 n \rceil</annotation></semantics></math>
+pigs, as that’s how many bit positions we need to represent
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+different numbers in binary.</p>
+<p>Now, what do we do, when we have more than one round to test, how
+does this setup change?</p>
+<p>After the first round of testing, some pigs will stay alive, so we
+can use them for the next round. Each pig may only die in exactly one
+round. If we record our results, we may write down the number of the
+round that the pig died in, denoting with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+the pigs, that are still alive at the end.</p>
+<p>So this means that our resulting pattern is now an
+base-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(r+1)</annotation></semantics></math>
+number and we can apply the same logic as before.</p>
+<p>For example:</p>
+<p>Let’s say we have
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+rounds and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8</mn><annotation encoding="application/x-tex">8</annotation></semantics></math>
+buckets. For this, we will need
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+pigs.</p>
+<p>Let’s index the buckets between
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>7</mn><annotation encoding="application/x-tex">7</annotation></semantics></math>,
+and convert them to
+base-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>!</p>
+<ul>
+<li>Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><msub><mn>00</mn><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">0 = 00_3</annotation></semantics></math>:
+Don’t give this bucket to any pigs.</li>
+<li>Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>=</mo><msub><mn>01</mn><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">1 = 01_3</annotation></semantics></math>:
+Give this to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+in round
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>.</li>
+<li>Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>=</mo><msub><mn>02</mn><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">2 = 02_3</annotation></semantics></math>:
+Give this to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+in round
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>.</li>
+<li>Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>=</mo><msub><mn>10</mn><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">3 = 10_3</annotation></semantics></math>:
+Give this to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+in round
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>.</li>
+<li>Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>=</mo><msub><mn>11</mn><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">4 = 11_3</annotation></semantics></math>:
+Give this to both pigs in the first round.</li>
+<li>Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>=</mo><msub><mn>12</mn><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">5 = 12_3</annotation></semantics></math>:
+Give this to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+in round
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+and pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+in round
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>.</li>
+<li>Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>=</mo><msub><mn>20</mn><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">6 = 20_3</annotation></semantics></math>:
+Give this to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+in round
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>.</li>
+<li>Bucket
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>=</mo><msub><mn>21</mn><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">7 = 21_3</annotation></semantics></math>:
+Give this to pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+in round
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+and pig
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+in round
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>.</li>
+</ul>
+<p>Since all patterns are different, we can tell from the result which
+was the poisonous bucket.</p>
+<p>Therefore, we can succeed using
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mo stretchy="false" form="prefix">⌈</mo><msub><mo>log</mo><mrow><mi>r</mi><mo>+</mo><mn>1</mn></mrow></msub><mi>n</mi><mo stretchy="false" form="postfix">⌉</mo></mrow><annotation encoding="application/x-tex">k = \lceil \log_{r+1} n \rceil</annotation></semantics></math>
+pigs in general.</p>
+<p>We currently don’t have a rigorous proof on the lower bound of this,
+but intuitively you can see that an argument similar to the <a
+href="https://zoo.cs.yale.edu/classes/cs201/topics/topic-sorting-lb.pdf">lower
+bound on comparison-based sorts</a> could be established.</p>
+<p>Finally, the code to calculate the formula above:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Solution</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> poorPigs<span class="op">(</span><span class="dt">int</span> buckets<span class="op">,</span> <span class="dt">int</span> minutesToDie<span class="op">,</span> <span class="dt">int</span> minutesToTest<span class="op">)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> rounds<span class="op">=</span>minutesToTest<span class="op">/</span>minutesToDie<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> pigs <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> maxbuckets <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>maxbuckets <span class="op">&lt;</span> buckets<span class="op">)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      maxbuckets <span class="op">*=</span> <span class="op">(</span>rounds <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">++</span>pigs<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pigs<span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>We did a linear search for the first exponent of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(r + 1)</annotation></semantics></math>
+which is larger than or equal to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="normal">buckets</mtext><annotation encoding="application/x-tex">\text{buckets}</annotation></semantics></math>.
+This runs in logarithmic time relative to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>,
+so it’s actually pretty fast.</p>
+<p>Note here, that although it may be compelling to use code similar to
+this instead, it results in a Wrong Answer:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Solution</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> poorPigs<span class="op">(</span><span class="dt">int</span> buckets<span class="op">,</span> <span class="dt">int</span> minutesToDie<span class="op">,</span> <span class="dt">int</span> minutesToTest<span class="op">)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> rounds <span class="op">=</span> minutesToTest<span class="op">/</span>minutesToDie<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ceil<span class="op">(</span>log<span class="op">(</span>buckets<span class="op">)</span> <span class="op">/</span> log<span class="op">(</span>rounds<span class="op">+</span><span class="dv">1</span><span class="op">));</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>This is due to problems with floating point precision. For example,
+for <code>rounds=4</code> and <code>buckets=125</code>, the correct
+answer is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>,
+but the resulting numbers are just <em>slightly</em> off.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>log<span class="op">(</span>buckets<span class="op">)</span> <span class="op">=</span> <span class="fl">4.82831373730230151153364204219542443752288818359375</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>log<span class="op">(</span>rounds<span class="op">+</span><span class="dv">1</span><span class="op">)</span> <span class="op">=</span> <span class="fl">1.6094379124341002817999424223671667277812957763671875</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="fl">3.000000000000000444089209850062616169452667236328125</span></span></code></pre></div>
+<p>I bet the testcases were designed intentionally to fail this type of
+submission.</p>
+<p>Although we can employ tricks like substracting some
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math>
+value before the ceil is applied, but a good rule of thumb for
+competitive programming is to <strong>avoid floating point numbers at
+all costs</strong>, so it is best to stick with the integer-only
+solutions whenever we can.</p>
+

@@ -1,0 +1,319 @@
+<p>The 2021 Google Code Jam <a
+href="https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a">Qualification
+Round</a> took place a few weeks ago. The duration of this round is 30
+hours, so no matter which timezone you live in around the world, you
+have more than a whole day to solve the tasks. To advance to the next
+round, you must have collected at least 30 points, and as usual, it
+wasn’t necessary to solve all the tasks to do so.</p>
+<p>The tasks this year were the following:</p>
+<ul>
+<li><a
+href="https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d0a5c">Reversort</a>
+(7 pont)</li>
+<li><a
+href="https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d1145">Moons
+and Umbrellas</a> (5, 11, 1 pont)</li>
+<li><a
+href="https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d12d7">Reversort
+Engineering</a> (7, 11 pont)</li>
+<li><a
+href="https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d1284">Median
+Sort</a> (7, 11, 10 pont)</li>
+<li><a
+href="https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d1155">Cheating
+Detection</a> (11, 20 pont)</li>
+</ul>
+<p>Let’s look at how we could advance to the next round!</p>
+<h2 id="st-task-reversort">1st Task: Reversort</h2>
+<h3 id="description">Description</h3>
+<p>Reversort is an algorithm, that can sort a list of distinct integers
+in ascending order, using the “Reverse” operation.</p>
+<p>Each application of this operation reverses the order of some
+continuous part of the list.</p>
+<p>The pseudocode of the algorithm is the following:</p>
+<pre><code>Reversort(L):
+  for i := 1 to length(L) - 1
+    j := index of the minimum in L[i..]
+    Reverse(L[i..j])</code></pre>
+<p>The code above iterates over the array and in every step it swaps the
+number in the current position with the minimum number in the remaining
+array, such that the numbers between them will be put in reverse order,
+by reversing that continuous part of the array.</p>
+<p>We can see, that at the end of the loop, the numbers in the array
+will be sorted in ascending order.</p>
+<p>This algorithm is wasteful, the question is by how much. On the
+input, we receive an array of numbers in random order and we have to
+print the sum of the length of the subarrays reversed during the
+algorithm’s run.</p>
+<h3 id="solution">Solution</h3>
+<p>There is only one test set. We can immediately see, that it is very
+small:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">T=100</annotation></semantics></math>
+cases, at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">N=100</annotation></semantics></math>
+numbers in each. If we look at the algorithm above, it runs the loop
+<span class="math inline">$\~N$</span> times, inside it finds the
+minimum in <span class="math inline">$\~N$</span> steps and reverses in
+<span class="math inline">$\~N$</span> steps also, which means that it
+requires around
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>⋅</mo><mrow></mrow><msup><mi>N</mi><mn>2</mn></msup><mo>=</mo><mn>2</mn><mo>⋅</mo><mrow></mrow><msup><mn>10</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">2\cdot{}N^2 = 2\cdot{}10^4</annotation></semantics></math>
+steps in total. It is important to know, that 1 second is around
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>7</mn></msup><annotation encoding="application/x-tex">10^7</annotation></semantics></math>
+-
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>8</mn></msup><annotation encoding="application/x-tex">10^8</annotation></semantics></math>
+instructions (a rough estimate for competitive programming), so we
+easily fit under 1 second. We have 10 seconds and 1 GB of memory in
+total for the tests, so we can easily fit into these limits if we just
+implement the pseudocode as is.</p>
+<p>It is a good idea to implement this task, because:</p>
+<ul>
+<li>It gives 7 points, which is a lot, compared to the 30 needed.</li>
+<li>We only have to translate the given pseudocode to a programming
+language, which is easy and fast.</li>
+<li>It has a Visible Verdict, so we can be sure we received those 7
+points.</li>
+<li>The description of the task said, that there will be a similar task
+later, so we might kill two birds with one stone, if we deal with this
+task now.</li>
+</ul>
+<p>I choose Python, because it is compact and has a similar syntax to
+the pseudocode itself. I usually choose between C++ and Python during
+competitions, using C++ for more complex tasks, where I want to use the
+STL library and if the time limits are strict. In this case, Python is
+the better choice for me.</p>
+<p>I submitted the following code (without the comments):</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">input</span>()) <span class="co"># First line of the input: number of testcases</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  cost <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> <span class="bu">int</span>(<span class="bu">input</span>()) <span class="co"># First line of the testcase: length of the array</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  l <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, <span class="bu">input</span>().split(<span class="st">&#39; &#39;</span>))) <span class="co"># Second line of the testcase: the array itself</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Implementation of Reversort</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(m<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> l.index(<span class="bu">min</span>(l[i:m])) <span class="co"># Find the minimum element in the remainder of the array.</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    cost <span class="op">+=</span> j<span class="op">-</span>i<span class="op">+</span><span class="dv">1</span> <span class="co"># Add the subarray&#39;s length to the total cost.</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    l[i:j<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> <span class="bu">reversed</span>(l[i:j<span class="op">+</span><span class="dv">1</span>]) <span class="co"># Reverse the subarray.</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f&quot;Case #</span><span class="sc">{</span>n_i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>cost<span class="sc">}</span><span class="ss">&quot;</span>) <span class="co"># Print the solution in the correct format.</span></span></code></pre></div>
+<p>We can see, that we barely had to change anything to implement
+Reversort in Python and we were done. I had some issues with indexing
+(lesson learned: all built-in functions in Python assume intervals are
+closed from the left and open from the right) and I didn’t know about
+<code>list.index</code> and the <code>reversed</code> functions, I had
+to look those up.</p>
+<p>We received 7 points so far, we need 23 more.</p>
+<h2 id="nd-task-moons-and-umbrellas">2nd Task: Moons and Umbrellas</h2>
+<h3 id="description-1">Description</h3>
+<p>Apart from the story, the task is the following: we receive a string,
+which contains the characters C, J and ?. We have to switch the ?
+characters to either C or J, such that in the resulting string, the
+weighted sum of the number of CJ and JC substrings is as small as
+possible. The number of CJs is weighted by X and the number of JCs by Y,
+these parameters are also given on the input.</p>
+<h3 id="solution-1">Solution</h3>
+<p>Of the three test sets, the first (for 5 points) is very small, the
+string can be of length 10 at most, so here we could try out all
+possible cases, which amount to at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>10</mn></msup><annotation encoding="application/x-tex">2^10</annotation></semantics></math>
+possibilities. If we were in a situation that we have already solved a
+few of the other tasks and just these 5 points are missing from the 30,
+then it would be worth coding just this much and not dealing with the
+other test sets.</p>
+<p>The second test set (for 11 points) contains strings of length 1000
+at most, which would be
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>1000</mn></msup><annotation encoding="application/x-tex">2^1000</annotation></semantics></math>
+possible solutions for each. Since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>4</mn></msup><mo>=</mo><mn>16</mn><mo>&gt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">2^4 = 16 &gt; 10</annotation></semantics></math>,
+that is greater than
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>250</mn></msup><annotation encoding="application/x-tex">10^250</annotation></semantics></math>,
+which would be too much, even if we could calculate the weight in one
+step. This test set does not allow for a brute force solution, we have
+to do some thinking too, however for 11 points, it might be worth
+dealing with.</p>
+<p>However, the third test set (for 1 point) is very unsympathetic. It
+is only worth 1 point, but negative values can also appear among the
+weights, which must be handled in a completely opposite way (the number
+of substrings must be maximized instead of minimized), the length of the
+strings is also
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1000</mn><annotation encoding="application/x-tex">1000</annotation></semantics></math>,
+so we cannot give a brute force algorithm and finally it is a Hidden
+Verdict, so we won’t even know immediately whether our submission was
+successful. This is the test case that is not worth dealing with, unless
+we think of something quick for this while solving the second test set,
+otherwise we would just be wasting our time.</p>
+<p>I submitted the following Python code for the first two test
+sets:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">input</span>())</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  x, y, m <span class="op">=</span> <span class="bu">input</span>().split()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> <span class="bu">int</span>(x)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> <span class="bu">int</span>(y)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> m.replace(<span class="st">&#39;?&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  xc <span class="op">=</span> m.count(<span class="st">&#39;CJ&#39;</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  yc <span class="op">=</span> m.count(<span class="st">&#39;JC&#39;</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f&quot;Case #</span><span class="sc">{</span>n_i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>x<span class="op">*</span>xc <span class="op">+</span> y<span class="op">*</span>yc<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+<p>If we want to just minimize the number of CJs and JCs, without caring
+about the weights first, then we could simply go through the string from
+left to right and replace every ? with the character to the left of it
+(which can no longer be ?, because we must have overwritten it in the
+previous step), or in the special case the string starts with ?’s, then
+replace them with the first non-? character, then we get such a
+minimized solution.</p>
+<p>We can observe, that no matter what we replace the ?’s with, there is
+no way to reduce CJ and JC counts, we could only add to it, since for
+example for every C?…?J, somewhere a CJ substring will occur. So this
+solution is the best for any non-negative X and Y weights.</p>
+<p>Finally, it’s much easier to just delete the ?’s, since the method
+above only “slides” the non-? characters next to each other, so it will
+not introduce a new alternation, it will only move the existing ones
+next to each other.</p>
+<p>For example for this input string:</p>
+<p><code>???JC??C??JCJ</code></p>
+<p>It will output this one:</p>
+<p><code>JJJJCCCCCCJCJ</code></p>
+<p>Which has the same number of CJ and JC substrings than the one which
+results from erasing the ?’s:</p>
+<p><code>JCCJCJ</code></p>
+<p>And this can be done in one operation in Python
+(<code>m.replace('?', '')</code>).</p>
+<p>Python is a good choice here too, since it is concise and we have 10
+seconds per test set, which is more than enough to run the code
+above.</p>
+<p>We received 16 more points, we need 7 more.</p>
+<h2 id="rd-task-reversort-engineering">3rd Task: Reversort
+Engineering</h2>
+<h3 id="description-2">Description</h3>
+<p>This is the task that starts the same way as Reversort, but now the
+roles are reversed: now on the input we get the length of the array and
+the cost and we have to output an array whose sorting will cost this
+much using Reversort (or write IMPOSSIBLE if this is not possible).</p>
+<h3 id="solution-2">Solution</h3>
+<p>For the first test set, the length of the array can be at most 7.
+This is very convenient, because we can try the 7!=5040 possible
+permutations one by one, run the solution given in the first task on
+each of them and print a permutation for which the cost is correct. If
+there is none, then print IMPOSSIBLE. This test set is worth 7 points,
+which is exactly what we need, so with this solution we are actually
+done, we could end the competition here.</p>
+<p>The second test set is more difficult, the length of the array can be
+at most 100 and the brute force algorithm will run out of time on 100!
+cases. Since I’ve had a lot of time lest from the competition, I’ve
+decided to try to solve this test set too.</p>
+<p>The key to the solution is to think backwards: we start from the
+final result, the sorted list of length N, we iterate on it backwards
+and step by step we “reverse” subarrays of the length we choose, until
+we reach the starting, mixed up list. If we can choose the lengths of
+the subarrays in such a way that the total sum of their length is the
+required cost, then the resulting array is the solution. (And here, of
+course, we have to notice on the task is impossible.)</p>
+<p>The first observation is that we will use at least 1 cost in each
+step, since the task says that if the is the smallest element at the
+current position, we will still “flip” that one-element subarray. Since
+this will certainly arise as a cost at each position (n-1 times in
+total), it is worth deducting (accounting for) this at the beginning, so
+that during further calculations it will not happen that we have used up
+all the costs but have not yet reached the beginning of the array.</p>
+<p>The consequence of this is that the cost of reversing an array of
+length
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+will be
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k-1</annotation></semantics></math>
+from now on, because
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+has already been accounted for.</p>
+<p>And the next observation is that we can choose from the following
+costs in the given positions from back to front:</p>
+<p>(Here the array is indexed with 0…n-1, Reversort does not run on the
+last element of the array, so we start backwards at index
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n-2</annotation></semantics></math>.)</p>
+<ul>
+<li>index n-2: 0 if the element on index n-2 is rotated in place, and 1
+if indexes n-2 and n-1 are swapped.</li>
+<li>index n-3: 0,1,2, similarly.</li>
+<li>index n-4: 0,1,2,3, similarly. …</li>
+<li>index 0: 0,1,…,n-1.</li>
+</ul>
+<p>So the task is to assemble the required cost as an amount while we
+can choose 1 number in each step above. Since we can choose an
+arbitrarily small number in each step, it is a good strategy to choose
+the maximum possible in each iteration to reduce the remaining cost as
+much as possible, unless we exceed it. If the maximum value in the list
+of possible choices is already more than the remaining cost, then a
+value equal to the cost is available too and can be selected from the
+list, then we can choose 0 in the remaining iterations.</p>
+<p>I implemented this algorithm in Python:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First line of input: number of test cases.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> <span class="bu">int</span>(<span class="bu">input</span>())</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> z_i <span class="kw">in</span> <span class="bu">range</span>(z):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># First line of test case: required array length, required cost value.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  n, c <span class="op">=</span> <span class="bu">map</span>(<span class="bu">int</span>, <span class="bu">input</span>().split(<span class="st">&#39; &#39;</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># First, we quickly rule out impossible cases:</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># We know that the minimum possible cost is n-1, if the goal is</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># less than this, then it&#39;s impossible.</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> c <span class="op">&lt;</span> n<span class="op">-</span><span class="dv">1</span>:</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Case #</span><span class="sc">{</span>z_i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: IMPOSSIBLE&quot;</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># To get the maximum possible cost, we choose largest number in each step,</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># which is the sum of the numbers N,...,2 (there is no 1, because for the</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># last element Reversort is not run).</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n<span class="op">*</span>(n<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">2</span><span class="op">-</span><span class="dv">1</span> <span class="op">&lt;</span> c:</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Case #</span><span class="sc">{</span>z_i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: IMPOSSIBLE&quot;</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># The description of the test sets includes that 2&lt;n, this is unnecessary</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># here, I just didn&#39;t notice.</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Case #</span><span class="sc">{</span>z_i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: 1&quot;</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># At this point a solution exists:</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># We account for the n-1 cost at the beginning:</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  c <span class="op">-=</span> (n<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Here I first calculate the costs in advance (this is not necessary,</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># it could also be done on the go):</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># In this array I will store for each starting index the end</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># of the subarray to be rotated.</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  torev <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(n))</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Here I&#39;m going forwards, it is only necessary in the next step to go</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># backwards.</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Here I calculate how much costs I can account for in this iteration</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (or the length of the longest possible subarray, or if it is too long,</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># then I can take the entire remaining cost).</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> <span class="bu">min</span>(n<span class="op">-</span><span class="dv">1</span><span class="op">-</span>i, c)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># I store where the end of the rotated subarray is. Here I had to</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># think a bit about the indexes, if there is a +1/-1 somewhere,</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># but this one is the correct indexing.</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    torev[i] <span class="op">=</span> i <span class="op">+</span> j</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># I remove from the total cost the value I accounted for in this iteration.</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    c <span class="op">-=</span> j</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># And here I play the previously stored rotations backwards and</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generate the starting array:</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># We start from the ordered array of length n.</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>  l <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,n<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>  <span class="co"># i=n-2...0</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># End of the subarray to be rotated.</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> torev[i]</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Even more +1/-1 indexing questions.</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    l[i:j<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> <span class="bu">reversed</span>(l[i:j<span class="op">+</span><span class="dv">1</span>])</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print the solution.</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>  st <span class="op">=</span> <span class="st">&quot; &quot;</span>.join(<span class="bu">map</span>(<span class="bu">str</span>, l))</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f&quot;Case #</span><span class="sc">{</span>z_i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>st<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+<p>There are many ways to calculate the solution here, it is probably
+not necessary to account for the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math>
+cost in advance, we could notice on the go if we have run out of the
+allowed cost. This code could still be simplified by a lot. :)</p>
+<p>With this solution, we scored 18 more points, which is 41 points in
+total. Every test set we submitted had a Visible Verdict, so we can be
+sure that we’ve made it to the next round!</p>
+

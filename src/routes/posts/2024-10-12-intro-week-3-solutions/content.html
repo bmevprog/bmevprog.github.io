@@ -1,0 +1,447 @@
+<h2 id="hw1-successful-pairs-of-spells-and-potions">HW1: Successful
+Pairs of Spells and Potions</h2>
+<p><a
+href="https://leetcode.com/problems/successful-pairs-of-spells-and-potions">LC
+2300</a></p>
+<p>For each spell, we are looking for the number of potions that will
+form a successful pair with it. We can first order the potions by
+increasing strength. Then, for each spell we can perform a binary search
+on the sorted potions array, looking for the smallest strength potion,
+that will still succeed, when paired with that spell. Then, any potion
+stronger than this will also succeed, while anything weaker will fail.
+So we can count the number of potions on the right side of the minimal
+successful one.</p>
+<p>You can implement the binary search by hand in the following way:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> ll <span class="op">=</span> <span class="dt">long</span> <span class="dt">long</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Solution <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> successful<span class="op">(</span>ll spell<span class="op">,</span> ll potion<span class="op">,</span> ll success<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> success <span class="op">&lt;=</span> spell <span class="op">*</span> potion<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> successfulPairs<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> spells<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> potions<span class="op">,</span> ll success<span class="op">)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>sort<span class="op">(</span>potions<span class="op">.</span>begin<span class="op">(),</span> potions<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> ans<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span><span class="op">&amp;</span> spell <span class="op">:</span> spells<span class="op">)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> lo <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> hi <span class="op">=</span> potions<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span><span class="op">(</span>lo <span class="op">&lt;</span> hi<span class="op">)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="op">{</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> mid <span class="op">=</span> <span class="op">(</span>hi<span class="op">-</span>lo<span class="op">)/</span><span class="dv">2</span> <span class="op">+</span> lo<span class="op">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>successful<span class="op">(</span>spell<span class="op">,</span> potions<span class="op">[</span>mid<span class="op">],</span> success<span class="op">))</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>          hi <span class="op">=</span> mid<span class="op">;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>          lo <span class="op">=</span> mid <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>      ans<span class="op">.</span>push_back<span class="op">(</span>potions<span class="op">.</span>size<span class="op">()-</span>lo<span class="op">);</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ans<span class="op">;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>Or in this case, since the potions array is already ‘materialized’ in
+the memory, you can use <code>std::lower_bound</code> too.</p>
+<p>In c++, when we have integers <code>int x,y;</code>, if we write
+<code>x/y</code>, that will be an integer division and return the floor,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">⌊</mo><mfrac><mi>x</mi><mi>y</mi></mfrac><mo stretchy="false" form="postfix">⌋</mo></mrow><annotation encoding="application/x-tex">\lfloor \frac{x}{y} \rfloor</annotation></semantics></math>.
+A neat trick to get the ceil,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">⌈</mo><mfrac><mi>x</mi><mi>y</mi></mfrac><mo stretchy="false" form="postfix">⌉</mo></mrow><annotation encoding="application/x-tex">\lceil \frac{x}{y} \rceil</annotation></semantics></math>
+instead, is to write <code>(x+y-1)/y</code>. This works, since
+<code>(x+y)/y</code> would always increase the result by
+<code>+1</code>, so <code>(x+y-1)/y</code> increases by <code>+1</code>
+only when the remainder of <code>x mod y</code> is not
+<code>0</code>.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> ll <span class="op">=</span> <span class="dt">long</span> <span class="dt">long</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Solution <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> successfulPairs<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> spells<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> potions<span class="op">,</span> ll success<span class="op">)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>sort<span class="op">(</span>potions<span class="op">.</span>begin<span class="op">(),</span> potions<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> ans<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span><span class="op">&amp;</span> spell <span class="op">:</span> spells<span class="op">)</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      ll minpotion <span class="op">=</span> <span class="op">(</span>success<span class="op">+</span>spell<span class="op">-</span><span class="dv">1</span><span class="op">)/</span>spell<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> count <span class="op">=</span> potions<span class="op">.</span>end<span class="op">()</span> <span class="op">-</span> lower_bound<span class="op">(</span>potions<span class="op">.</span>begin<span class="op">(),</span> potions<span class="op">.</span>end<span class="op">(),</span> minpotion<span class="op">);</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      ans<span class="op">.</span>push_back<span class="op">(</span>count<span class="op">);</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ans<span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<h2 id="hw2-koko-eating-bananas">HW2 : Koko eating bananas</h2>
+<p><a href="https://leetcode.com/problems/koko-eating-bananas">LC
+875</a></p>
+<p>This is a typical ‘binary search for the smallest possible solution’
+type of task. To see this, you have to answer two questions:</p>
+<ul>
+<li>Can you validate a solution? - If someone gave you a speed, could
+you check if Koko would finish in time with that speed?</li>
+<li>Is the solution space ordered? - If a specific speed is correct,
+would any higher speed work also?</li>
+</ul>
+<p>The answer is yes to both questions, so let’s do a binary search!</p>
+<p>We need a starting interval of possible answers. The lowest possible
+correct answer would be a speed of <code>1 banana / hour</code>, so we
+set this as lo. The highest possible speed we may need is for Koko to
+‘devour’ each pile in <code>1 hour</code> (she cannot go faster than
+that), so that would mean she needs to be able to eat the largest pile
+in <code>1 hour</code>, so we set <code>hi</code> to this amonut of
+<code>bananas / hour</code>.</p>
+<p>Then, we have a checker function <code>can_finish</code>, which tells
+us if a specific speed is enough for Koko to finish in time.</p>
+<p>The rest is binary search, as seen before. :)</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> ll <span class="op">=</span> <span class="dt">long</span> <span class="dt">long</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Solution</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> can_finish<span class="op">(</span><span class="at">const</span> vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> piles<span class="op">,</span> <span class="dt">int</span> hours<span class="op">,</span> <span class="at">const</span> <span class="dt">int</span> speed<span class="op">)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span><span class="op">&amp;</span> pile <span class="op">:</span> piles<span class="op">)</span> hours <span class="op">-=</span> <span class="op">(</span>pile <span class="op">+</span> speed <span class="op">-</span> <span class="dv">1</span><span class="op">)</span> <span class="op">/</span> speed<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span> <span class="op">&lt;=</span> hours<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> minEatingSpeed<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> piles<span class="op">,</span> <span class="dt">int</span> h<span class="op">)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lo <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> hi <span class="op">=</span> <span class="op">*</span>max_element<span class="op">(</span>piles<span class="op">.</span>begin<span class="op">(),</span> piles<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>lo <span class="op">&lt;</span> hi<span class="op">)</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> mid <span class="op">=</span> <span class="op">(</span>hi<span class="op">-</span>lo<span class="op">)/</span><span class="dv">2</span> <span class="op">+</span> lo<span class="op">;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="op">(</span>can_finish<span class="op">(</span>piles<span class="op">,</span> h<span class="op">,</span> mid<span class="op">))</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        hi <span class="op">=</span> mid<span class="op">;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        lo <span class="op">=</span> mid <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lo<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<h2 id="hw3-cardboard-for-pictures">HW3 : Cardboard for Pictures</h2>
+<p><a href="https://codeforces.com/contest/1850/problem/E">CF
+1850E</a></p>
+<p>In many cases, exercises where a binary search is possible also allow
+for direct solutions. This exercise is one of those. The question is,
+would you rather implement a quadratic solver on floating point numbers
+or a binary search on integers?</p>
+<p>The correct answer is the latter, so let’s look at binary search
+first.</p>
+<h3 id="binary-search">Binary search</h3>
+<p>To implement the checking function <code>bool fits(ll w)</code>, we
+must pay attention to overflows. Before executing any operation, we
+check if the operation would result in an overflow, <em>without actually
+executing it</em>!</p>
+<p>For this, we store the maximum value of <code>long long</code>, in
+<code>maxll</code> and the maximum value we can square and still fit, in
+<code>maxllsql</code>.</p>
+<p>To check if <code>side * side</code> would result in an overflow, we
+check <code>if (maxllsq &lt; side)</code>. To check if
+<code>total + add</code> would result in an overflow, we check
+<code>if (maxll - add &lt; total)</code>.</p>
+<p>A possible upper bound on the valid <code>w</code>’s is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mfrac><mi>c</mi><mi>n</mi></mfrac></msqrt><annotation encoding="application/x-tex">\sqrt{\frac{c}{n}}</annotation></semantics></math>,
+which would happen when all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+pictures were size
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> ll <span class="op">=</span> <span class="dt">long</span> <span class="dt">long</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> ll maxll <span class="op">=</span> numeric_limits<span class="op">&lt;</span>ll<span class="op">&gt;::</span>max<span class="op">();</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> ll maxllsq <span class="op">=</span> sqrt<span class="op">(</span>maxll<span class="op">);</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>ll n<span class="op">,</span> c<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>ll<span class="op">&gt;</span> p<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> fits<span class="op">(</span>ll w<span class="op">)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  ll total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span><span class="op">&amp;</span> px <span class="op">:</span> p<span class="op">)</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    ll side <span class="op">=</span> px <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> w<span class="op">;</span>  <span class="cf">if</span> <span class="op">(</span>maxllsq <span class="op">&lt;</span> side<span class="op">)</span> <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    ll add <span class="op">=</span> side <span class="op">*</span> side<span class="op">;</span>  <span class="cf">if</span> <span class="op">(</span>maxll <span class="op">-</span> add <span class="op">&lt;</span> total<span class="op">)</span> <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    total <span class="op">+=</span> add<span class="op">;</span>          <span class="cf">if</span> <span class="op">(</span>c <span class="op">&lt;</span> total<span class="op">)</span> <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> t<span class="op">;</span> cin<span class="op">&gt;&gt;</span>t<span class="op">;</span> <span class="cf">while</span><span class="op">(</span>t<span class="op">--)</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    p<span class="op">.</span>assign<span class="op">(</span>n<span class="op">,</span> <span class="op">{});</span> <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span><span class="op">&amp;</span> px <span class="op">:</span> p<span class="op">)</span> cin<span class="op">&gt;&gt;</span>px<span class="op">;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    ll lo <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    ll hi <span class="op">=</span> sqrt<span class="op">(</span>c<span class="op">/</span>n<span class="op">);</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>lo <span class="op">&lt;</span> hi<span class="op">)</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>      ll mid <span class="op">=</span> <span class="op">(</span>hi <span class="op">-</span> lo <span class="op">+</span> <span class="dv">1</span><span class="op">)/</span><span class="dv">2</span> <span class="op">+</span> lo<span class="op">;</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="op">(</span>fits<span class="op">(</span>mid<span class="op">))</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        lo <span class="op">=</span> mid<span class="op">;</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        hi <span class="op">=</span> mid <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> lo <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Since are searching for the <strong>largest</strong> frame width for
+which we still have enough cardboard. This makes our binary search
+implementation slightly different here. In this case, we implement
+<code>upper_bound</code>, as opposed to <code>lower_bound</code>.</p>
+<p><img
+src="/assets/posts/2024-10-12-intro-week-3-solutions/binary-search.png" /></p>
+<p>It is useful to think about what will happen when our interval
+shrinks to size 2, this is where we can accurately set the +1/-1’s in
+our equations.</p>
+<h3
+id="direct-implementation---a-numerically-stable-quadratic-formula">Direct
+implementation - A numerically stable quadratic formula</h3>
+<p>For a specific
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>,
+the amount of cardboard we are using for a picture of size
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mi>i</mi></msub><annotation encoding="application/x-tex">p_i</annotation></semantics></math>
+can be calculated as follows:</p>
+<p><img
+src="/assets/posts/2024-10-12-intro-week-3-solutions/cardboard.png" /></p>
+<p>The total amount of cardboard should be
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>,
+therefore our equation is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>n</mi><mo>⋅</mo><mrow></mrow><msup><mi>w</mi><mn>2</mn></msup><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>p</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mrow></mrow><mi>w</mi><mo>+</mo><msubsup><mi>p</mi><mi>i</mi><mn>2</mn></msubsup><mo>=</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">4n\cdot{}w^2  + (4\sum\limits_{i=1}^{n} p_i)\cdot{}w + p_i^2 = c</annotation></semantics></math></p>
+<p>, which we need to solve for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> ll <span class="op">=</span> <span class="dt">long</span> <span class="dt">long</span><span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">// solve ax^2 + bx + c = 0</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> eps <span class="op">=</span> <span class="fl">1e-14</span><span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> quadsolve<span class="op">(</span><span class="dt">double</span> a<span class="op">,</span> <span class="dt">double</span> b<span class="op">,</span> <span class="dt">double</span> c<span class="op">)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span><span class="op">(</span>abs<span class="op">(</span>a<span class="op">)</span> <span class="op">&lt;</span> eps<span class="op">)</span> <span class="co">// linear</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>abs<span class="op">(</span>b<span class="op">)</span> <span class="op">&lt;</span> eps<span class="op">)</span> <span class="cf">return</span> <span class="op">{};</span> <span class="co">// c = 0</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">{-</span>c<span class="op">/</span>b<span class="op">};</span> <span class="co">// bx + c = 0</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">double</span> D <span class="op">=</span> b<span class="op">*</span>b <span class="op">-</span> <span class="dv">4</span><span class="op">*</span>a<span class="op">*</span>c<span class="op">;</span> <span class="co">// discriminant</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>D <span class="op">&lt;</span> <span class="op">-</span>eps<span class="op">)</span> <span class="cf">return</span> <span class="op">{};</span> <span class="co">// no real roots</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>abs<span class="op">(</span>D<span class="op">)</span> <span class="op">&lt;</span> eps<span class="op">)</span> <span class="cf">return</span> <span class="op">{-</span><span class="fl">0.5</span><span class="op">*</span>b<span class="op">/</span>a<span class="op">};</span> <span class="co">// double root</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// numerically stable: no catastrophic cancellation</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">double</span> sgnb <span class="op">=</span> <span class="op">(</span>b <span class="op">&gt;=</span> <span class="fl">0.0</span><span class="op">)</span> <span class="op">?</span> <span class="fl">1.0</span> <span class="op">:</span> <span class="op">-</span><span class="fl">1.0</span><span class="op">;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">double</span> q <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> <span class="op">(</span>b <span class="op">+</span> sgnb <span class="op">*</span> sqrt<span class="op">(</span>D<span class="op">));</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">{</span>q<span class="op">/</span>a<span class="op">,</span> c<span class="op">/</span>q<span class="op">};</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> t<span class="op">;</span> cin<span class="op">&gt;&gt;</span>t<span class="op">;</span> <span class="cf">while</span><span class="op">(</span>t<span class="op">--)</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    ll n<span class="op">,</span> c<span class="op">;</span> cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>ll<span class="op">&gt;</span> p<span class="op">(</span>n<span class="op">);</span> <span class="cf">for</span><span class="op">(</span>ll <span class="op">&amp;</span>px <span class="op">:</span> p<span class="op">)</span> cin <span class="op">&gt;&gt;</span> px<span class="op">;</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    ll A<span class="op">=</span><span class="dv">4</span><span class="op">*</span>n<span class="op">,</span> B<span class="op">=</span><span class="dv">0</span><span class="op">,</span> C<span class="op">=-</span>c<span class="op">;</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span><span class="op">&amp;</span> px <span class="op">:</span> p<span class="op">)</span> <span class="op">{</span> B <span class="op">+=</span> <span class="dv">4</span><span class="op">*</span>px<span class="op">;</span> C <span class="op">+=</span> px<span class="op">*</span>px<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> result <span class="op">=</span> quadsolve<span class="op">(</span>A<span class="op">,</span>B<span class="op">,</span>C<span class="op">);</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> ans <span class="op">=</span> <span class="op">*</span>max_element<span class="op">(</span>result<span class="op">.</span>begin<span class="op">(),</span> result<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="op">(</span>ll<span class="op">)</span>round<span class="op">(</span>ans<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>The
+<code>vector&lt;double&gt; quadsolve(double a, double b, double c)</code>
+function above finds the roots of the quadratic formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mi>b</mi><mi>x</mi><mo>+</mo><mi>c</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">ax^2 + bx + c = 0</annotation></semantics></math>.
+Mathematically, the roots are given by</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub><mo>=</mo><mfrac><mrow><mi>−</mi><mi>b</mi><mo>±</mo><msqrt><mi>D</mi></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">x_{1,2} = \frac{-b \pm \sqrt{D}}{2a}</annotation></semantics></math></p>
+<p>, where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><msup><mi>b</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">D = b^2 - 4ac</annotation></semantics></math>
+is the discriminant.</p>
+<p>There are two important implementation details in this code:</p>
+<p>Firstly, we must always allow for some numerical precision error. So
+we set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi><mo>=</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>14</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\varepsilon = 10^{-14}</annotation></semantics></math>
+and consider a variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+to be
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+whenever
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mi>ε</mi><mo>,</mo><mi>ε</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">x \in [-\varepsilon, \varepsilon]</annotation></semantics></math>,
+and to be negative or positive only outside of this interval.</p>
+<p>Secondly, there is one numerical stability issue in the quadratic
+equation: if the value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mi>D</mi></msqrt><annotation encoding="application/x-tex">\sqrt{D}</annotation></semantics></math>
+is close to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">|</mo><mi>b</mi><mo stretchy="true" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">|b|</annotation></semantics></math>,
+then one of the two possible values of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>±</mo><msqrt><mi>D</mi></msqrt></mrow><annotation encoding="application/x-tex">b \pm \sqrt{D}</annotation></semantics></math>
+can be too small, which results in <a
+href="https://en.wikipedia.org/wiki/Catastrophic_cancellation"><em>catastrophic
+cancellation</em></a> of the terms - a loss of significance during our
+calculations.</p>
+<p>The implementation above avoids this issue by calculating the value
+which does not suffer from this issue and using <a
+href="https://en.wikipedia.org/wiki/Vieta%27s_formulas#Example">Vieta’s
+formula</a>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>⋅</mo><msub><mi>x</mi><mn>2</mn></msub><mo>=</mo><mfrac><mi>c</mi><mi>a</mi></mfrac></mrow><annotation encoding="application/x-tex">x_1 \cdot x_2 = \frac{c}{a}</annotation></semantics></math>
+to find the value of the other.</p>
+<p>For more details, see the PTVF Numerical recipes book, equations
+5.6.4, 5.6.5 in the 2nd edition.</p>
+<h2 id="challenge-doremys-iq">Challenge: Doremy’s IQ</h2>
+<p><a href="https://codeforces.com/contest/1707/problem/A">CF
+1707A</a></p>
+<p>For this exercise, we first have to make one important
+observation:</p>
+<p>If we want to take a contest that would lower our IQ, it is always
+better to choose a later one, so we have a higher IQ for the contests in
+the days in-between the two options.</p>
+<p>More formally, given any solution to this problem, we can create
+another solution with the <em>same amount</em> of contests taken by
+copying all contests that did not lower our IQ, then picking the latest
+possible contests from the remaining ones to match the total number of
+contests needed.</p>
+<p>Since any IQ-lowering contest would move to a later date, our daily
+current IQ could only increase, which means we can test the same
+contests in-between without losing IQ.</p>
+<p>We can recall, that this is a ‘greedy-stays-ahead’ type of proof,
+similar to the <a
+href="/posts/2024-09-20-intro-week-1-solutions/#hw2-chat-room">Chat
+room</a> problem from Week 1.</p>
+<p>This means that a good strategy for us is to first start taking
+contests that don’t lower our IQ, then at a certain day switch to taking
+all remaining contests.</p>
+<p>The question is: At which day should we change our strategy?</p>
+<p>We want to pick the earliest day, that is still viable, so that we
+don’t end up with negative IQ at the end. We can simply simulate this
+process in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math>
+and check our remaining IQ at the end.</p>
+<p>If a strategy-changing day is viable, then every later day is also
+viable. To maximize the contests we took, we want to find the earliest
+viable day. This allows us to binary search for its location!</p>
+<p>We will execute
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(log(n))</annotation></semantics></math>
+steps during our binary search, each step being an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math>
+simulation, for a total of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(nlog(n))</annotation></semantics></math>,
+which fits into out time limits!</p>
+<p>A possible implementation:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> q<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> a<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> doremy_result<span class="op">(</span><span class="dt">int</span> from<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> ans<span class="op">)</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  ans<span class="op">.</span>assign<span class="op">(</span>n<span class="op">,</span> <span class="op">{});</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> q_left <span class="op">=</span> q<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i<span class="op">=</span><span class="dv">0</span><span class="op">;</span> i<span class="op">&lt;</span>from<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    ans<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span>a<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;=</span> q_left<span class="op">);</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i<span class="op">=</span>from<span class="op">;</span> i<span class="op">&lt;</span>n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    ans<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">!!</span>q_left<span class="op">;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    q_left <span class="op">-=</span> <span class="op">(</span>q_left <span class="op">&lt;</span> a<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span> <span class="op">&lt;=</span> q_left<span class="op">;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  ios<span class="op">::</span>sync_with_stdio<span class="op">(</span><span class="dv">0</span><span class="op">);</span> cin<span class="op">.</span>tie<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> t<span class="op">;</span> cin<span class="op">&gt;&gt;</span>t<span class="op">;</span> <span class="cf">while</span><span class="op">(</span>t<span class="op">--)</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    cin<span class="op">&gt;&gt;</span>n<span class="op">&gt;&gt;</span>q<span class="op">;</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    a<span class="op">.</span>assign<span class="op">(</span>n<span class="op">,</span> <span class="op">{});</span> <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span><span class="op">&amp;</span> ax<span class="op">:</span> a<span class="op">)</span> cin<span class="op">&gt;&gt;</span>ax<span class="op">;</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> ans<span class="op">;</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lo<span class="op">=</span><span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> hi<span class="op">=</span>n<span class="op">;</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>lo<span class="op">&lt;</span>hi<span class="op">)</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> mid <span class="op">=</span> <span class="op">(</span>hi<span class="op">-</span>lo<span class="op">)/</span><span class="dv">2</span> <span class="op">+</span> lo<span class="op">;</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="op">(</span>doremy_result<span class="op">(</span>mid<span class="op">,</span> ans<span class="op">))</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>        hi <span class="op">=</span> mid<span class="op">;</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>        lo <span class="op">=</span> mid<span class="op">+</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    doremy_result<span class="op">(</span>lo<span class="op">,</span> ans<span class="op">);</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i<span class="op">=</span><span class="dv">0</span><span class="op">;</span> i<span class="op">&lt;</span>n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> cout <span class="op">&lt;&lt;</span> ans<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="going-backwards">Going backwards</h3>
+<p>Sometimes, thinking about a problem in <em>reverse</em> can make it
+easier to solve. Imagine starting on the last day with an IQ of 0 and
+moving <em>backwards in time</em>. We can simulate the process in
+reverse like this:</p>
+<ul>
+<li>While our current IQ is less than our original starting IQ, we
+attempt all contests.</li>
+<li>Each time we try a contest that is harder than our current IQ level,
+our IQ increases.</li>
+<li>We can keep increasing our IQ until we reach our starting IQ.</li>
+<li>Once we’ve reached our starting IQ, we can only attempt contests
+that are not more difficult than our IQ.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> t<span class="op">;</span> cin<span class="op">&gt;&gt;</span>t<span class="op">;</span> <span class="cf">while</span><span class="op">(</span>t<span class="op">--)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> q<span class="op">;</span> cin<span class="op">&gt;&gt;</span>n<span class="op">&gt;&gt;</span>q<span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> a<span class="op">(</span>n<span class="op">);</span> <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span><span class="op">&amp;</span> ax<span class="op">:</span> a<span class="op">)</span> cin<span class="op">&gt;&gt;</span>ax<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> ans<span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> q_curr <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i<span class="op">=</span>n<span class="op">-</span><span class="dv">1</span><span class="op">;</span> <span class="dv">0</span><span class="op">&lt;=</span>i<span class="op">;</span> <span class="op">--</span>i<span class="op">)</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="op">(</span>a<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;=</span> q_curr<span class="op">)</span> ans<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>q_curr <span class="op">&lt;</span> q<span class="op">)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>      <span class="op">{</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        ans<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">++</span>q_curr<span class="op">;</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span><span class="op">&amp;</span> ansx<span class="op">:</span> ans<span class="op">)</span> cout<span class="op">&lt;&lt;</span>ansx<span class="op">;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    cout<span class="op">&lt;&lt;</span>endl<span class="op">;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>You may have noticed that there is a tiny discrepancy here: If the
+difficulty of a contest is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+and our current IQ is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x-1</annotation></semantics></math>,
+we would be increasing it, which means our IQ was
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+before testing, in which case we should not have lost IQ testing that
+contest. Luckily, this only happens when the optimal solution allows for
+some IQ left over at the end. For example, when
+<code>n=3, q=3, a=[4,3,3,3]</code>, the optimal solution is
+<code>ans=[0,1,1,1]</code>, which leaves us with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+IQ at the end.</p>
+
