@@ -58,8 +58,9 @@
     margin: 1rem;
     gap: 1rem;
     color: inherit;
+    text-decoration: none;
 
-    &:hover { opacity: 0.8; }
+    &:hover { text-decoration: none; }
     .logo { max-width: 100%; height: auto; }
     .title {
       display: flex;
