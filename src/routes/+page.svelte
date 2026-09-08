@@ -58,12 +58,6 @@
 <style lang="scss">
   $mobile-breakpoint: 42rem;
 
-  main {
-    max-width: none;
-    margin: 0;
-    padding: 1rem;
-  }
-
   .list-header,
   .entry {
     display: grid;
