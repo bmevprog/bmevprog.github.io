@@ -44,5 +44,6 @@ add(
 add('https://discord.gg/N8WbXhQGYq', 'voice', 'join-voice');
 add('https://www.youtube.com/@bmevprog', 'youtube', 'yt');
 add('https://us06web.zoom.us/j/86740035264', 'zoom');
+add('https://docs.google.com/spreadsheets/d/1lQklJi1Z0YH_3KVO8RRGLS0oh3nu267Ymub9En21GQQ/edit?usp=sharing', 'time');
 
 export { redirects };
